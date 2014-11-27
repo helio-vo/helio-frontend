@@ -1,6 +1,6 @@
 package eu.heliovo.hfe.model.param
 
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils;
+import grails.plugin.springsecurity.SpringSecurityUtils;
 
 import grails.test.*
 import eu.heliovo.hfe.model.security.User

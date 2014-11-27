@@ -9,7 +9,7 @@ Expected params:
     <table style="margin-bottom: 10px;">
       <tr>
         <td valign="top">
-          <div class="paramDroppable paramDroppable${paramName} show${paramName}Dialog" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+          <div class="paramDroppable <g:if test="${paramDroppableName}">paramDroppableParamSet_${paramDroppableName}</g:if> paramDroppable${paramName} show${paramName}Dialog" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
             <img id="img${paramName}Summary" class="paramDraggable paramDraggable${paramName}"  style="margin:11px" src="${resource(dir:'images/helio',file:'circle_' + paramName + '_grey.png')}" />
           </div>
         </td>

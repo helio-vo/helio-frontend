@@ -21,6 +21,15 @@
                 <td></td>
             </tr>
              --%>
+             <tr>
+                <td>27-Nov-2014</td>
+                <td>
+                  <ul>
+                    <li>New drag and drop functionality for data card items when double clicking on items</li>
+                    <li>Many bug fixes</li>
+                  </ul>
+                </td>
+            </tr>
             <tr>
                 <td>07-Jan-2013</td>
                 <td>

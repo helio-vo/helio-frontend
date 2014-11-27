@@ -5,6 +5,8 @@ grails.project.test.reports.dir = "target/test-reports"
 // Needed for http://jira.codehaus.org/browse/GRAILS-6096?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel
 grails.project.war.osgi.headers = false
 
+grails.project.dependency.resolver = "maven"
+
 grails.project.dependency.resolution = {
     // Everything with a version that ends with -SNAPSHOT is changing
     chainResolver.changingPattern = ".*-SNAPSHOT"
@@ -26,9 +28,9 @@ grails.project.dependency.resolution = {
 //        resolver(snapshotResolverClass.newInstance(name: "helio-snapshots", root: "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"))
 
         
+    	mavenLocal()
         mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"
         mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/internal"
-        mavenLocal()
 
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
@@ -45,12 +47,20 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		provided 'javax.servlet:servlet-api:2.5'
         compile ('eu.heliovo:helio-clientapi:5.0-SNAPSHOT', 'eu.heliovo:helio-cis-client:5.0-SNAPSHOT') {
-            excludes 'slf4j-log4j12', 'slf4j-api', 'hibernate-commons-annotations', 'spring-security-core'    
+            excludes 'slf4j-log4j12', 'slf4j-api', 'spring-security-core'    
         }
+		
+		// temporary fix: http://stackoverflow.com/questions/24164351/grails-2-4-throws-ehcache-class-not-found-error
+		// needed for spring-security-core:2.0-RC4
+		compile "net.sf.ehcache:ehcache-core:2.4.8"  
 	}
 	
 	plugins {
-		build ":tomcat:$grailsVersion"
+		build ":tomcat:8.0.14"
+		compile ":spring-security-core:2.0-RC4"
+		compile ":hibernate:3.6.10.17"
+		compile ":jquery:1.11.1"
+		compile ":jquery-ui:1.10.4"
 	}
 	
     // force grails to fetch the latest versions from the maven repo rather than from the ivy cache.

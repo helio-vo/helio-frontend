@@ -1,19 +1,17 @@
-import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-
-import eu.heliovo.clientapi.model.field.Operator;
 import eu.heliovo.hfe.model.cart.DataCart
 import eu.heliovo.hfe.model.param.AbstractParam
 import eu.heliovo.hfe.model.param.EventListParam
-import eu.heliovo.hfe.model.param.EventListParamEntry;
+import eu.heliovo.hfe.model.param.EventListParamEntry
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
-import eu.heliovo.hfe.model.param.ParamSetEntry;
+import eu.heliovo.hfe.model.param.ParamSetEntry
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.security.Role
 import eu.heliovo.hfe.model.security.User
-import grails.converters.JSON
+import grails.converters.JSON;
+import grails.plugin.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.util.GrailsUtil
 
 class BootStrap {

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 /**
  * Some static methods to read the version properties from the manifest file.
@@ -15,7 +15,7 @@ public class BuildInfo {
 	/**
 	 * Happy, little logger
 	 */
-	private static final Logger _LOGGER = Logger.getLogger(BuildInfo.class);
+//	private static final Logger _LOGGER = Logger.getLogger(BuildInfo.class);
 	
 	/**
 	 * Path of the classpath resource to load.
@@ -51,7 +51,7 @@ public class BuildInfo {
 		try {
 			props.load(inputStream);
 		} catch (IOException e) {
-			_LOGGER.warn("Unable to load properties from '" + BUILD_INFO + "': " + e.getMessage(), e);
+			//_LOGGER.warn("Unable to load properties from '" + BUILD_INFO + "': " + e.getMessage(), e);
 		}
 	}
 	

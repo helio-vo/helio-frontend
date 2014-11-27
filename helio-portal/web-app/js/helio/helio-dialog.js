@@ -148,7 +148,7 @@ helio.TimeRangeSelector.prototype._init = function(){
  * @param {String} taskName the actual name of the task variant. 
  */
 helio.AbstractSummary = function(task, taskName, typeName, data) {
-    this.task = task;
+	this.task = task;
     this.taskName = taskName;
     this.typeName = typeName; // name of the type: TimeRange | ParamSet | Observatory
     this.droppableName = typeName; // name of the accepted droppable. Can be overwritten in child classes (e.g. ParamSetSummary)
@@ -184,20 +184,37 @@ helio.AbstractSummary.prototype.init = function() {
     
     // 6. init the droppable
     $(".paramDroppable" + this.typeName).droppable({
-        accept: ".cartitemDraggable" + this.droppableName,
+    	accept: ".cartitemDraggable" + this.droppableName,
         activeClass: "paramDroppableActive",
         hoverClass: "paramDroppableHover",
         drop: function( event, ui ) {
            if( ui.draggable.data('data') != null){
                 THIS.data = ui.draggable.data('data');
-                THIS.__render(ui.draggable.data('data'));
+                THIS.__render(THIS.data);
             }
         }
     });
     
-    // 7. and the draggable
+    // 7. init trigger to receive new data
+    $(".paramDroppable" + THIS.droppableName).on("update" + THIS.droppableName, function(event, source, data) {
+    	var targetPos = $(this).position();
+    	var img = source.find('img').clone().attr("style", "width:50px; height:50px; z-index:1700; position:absolute;");
+    	source.find('img').parent().prepend(img);
+    	img.animate({
+    		left:targetPos.left + 20, // +20 because of css margin of the target element
+    		top:targetPos.top + 20
+		}, 500);
+    	img.fadeOut("fast", function() {
+            img.remove();
+            THIS.data = data;
+            THIS.__render(THIS.data);
+        });
+    });
+    
+    
+    // 8. init the draggable
     $(".paramDraggable" + this.typeName).draggable({
-        // attach data to draggable
+    	// attach data to draggable
         start : function(event, ui) {
             // create a deep copy of the data.
             $(this).data('data', $.extend(true, {}, THIS.data));
@@ -217,12 +234,12 @@ helio.AbstractSummary.prototype.init = function() {
  * @param data the data to render.
  */
 helio.AbstractSummary.prototype.__render = function(data) {
-    var summary = this._renderSummary(data);
+	var summary = this._renderSummary(data);
     if (summary != null) { // (re-)populate the summary section
         $("#text" + this.typeName + "Summary").empty().html(summary);
 
         $("#img" +  this.typeName + "Summary").attr('src','./images/helio/circle_' + this.typeName + '.png');
-        $(".paramDraggable" + this.typeName).draggable("option", "disabled", false );
+        $(".paramDraggable" + this.typeName).draggable({disabled:false});
 
         this.task.validate();
     } else {
@@ -246,7 +263,7 @@ helio.AbstractSummary.prototype._renderSummary = function(data) {
 helio.AbstractSummary.prototype.clear = function() {
     $("#text" + this.typeName +  "Summary").empty().html("");
     $("#img" + this.typeName + "Summary").attr('src','./images/helio/circle_' + this.typeName + '_grey.png');
-    $(".paramDraggable" + this.typeName).draggable("option", "disabled", true);
+    $(".paramDraggable" + this.typeName).draggable({disabled:true});
     this.data = null;
     this.task.validate();
 };
@@ -300,7 +317,7 @@ helio.TimeRangeSummary.prototype._renderSummary = function(timeRanges) {
  * 
  */
 helio.ParamSetSummary = function(task, taskName, data) {
-    helio.AbstractSummary.apply(this, [task, taskName, 'ParamSet', data]);
+	helio.AbstractSummary.apply(this, [task, taskName, 'ParamSet', data]);
     this.droppableName = this.typeName + '_' + taskName; 
 };
 
@@ -802,7 +819,8 @@ helio.TimeRangeDialog.prototype.__initTimeRange = function(/*int*/ index) {
     
     // disable/enable the delete buttons
     var timeRanges = $('.input_time_range'); 
-    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);
+    $(".input_time_range_remove").button({disabled: timeRanges.size()==2});
+    //$(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);
     
     // setup the tab order buttons
     this.__initTabOrder();
@@ -836,7 +854,8 @@ helio.TimeRangeDialog.prototype.__removeTimeRange = function(caller, index) {
     });
     
     // disable/enable the delete button
-    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);
+    //$(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);
+    $(".input_time_range_remove").button({disabled: timeRanges.size()==2});
     this.__initTabOrder();
 };
 
@@ -1457,7 +1476,7 @@ helio.InstrumentDialog.prototype._init = function() {
  * The action to be executed when the Ok button is pressed.
  */
 helio.InstrumentDialog.prototype._updateDataModel = function() {
-    if (this.newdata.length() == 0) {
+	if (this.newdata.length() == 0) {
         alert("Please select at least one instrument");
         return false;
     }
@@ -1577,8 +1596,8 @@ helio.ExtractParamsDialog.prototype._init = function() {
  */
 helio.ExtractParamsDialog.prototype._extractParams = function() {
     // get name label
-    
-    // get active tab
+
+	// get active tab
     
     switch (activeTab) {
     case 'instrument':

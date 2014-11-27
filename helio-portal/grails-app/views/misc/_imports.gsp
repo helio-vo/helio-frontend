@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.14.custom.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui.css')}" />
 
 <%-- old style css imports - to be removed --%>
 <link rel="stylesheet" href="${resource(dir:'css',file:'navbar.css')}" />
@@ -11,14 +11,18 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'superfish.css')}" />
 
 <g:javascript library="jquery" plugin="jquery"/><%--The main jquery library is managed by grails, this is done to enable the wiring of some extra functions--%>
+<%--<g:javascript src="/plugins/jquery-migrate.js"/>
 
-<%--plugins--%>
+--%><%--plugins--%>
 <g:if env="prod">
-  <g:javascript src="/plugins/jquery-ui-1.8.21.custom.min.js"/>
+  <%--<g:javascript src="/plugins/jquery-ui-1.8.21.custom.min.js"/>
+  --%>
+  <g:javascript src="plugins/jquery-ui.js"/>
   <g:javascript src="/plugins/jquery.dataTables-1.9.3.min.js" /> <%--the data tables use for presentation of votables --%>
 </g:if>
 <g:else>
-  <g:javascript src="/plugins/jquery-ui-1.8.21.custom.js"/>
+  <%--<g:javascript src="/plugins/jquery-ui-1.8.21.custom.js"/>
+  --%><g:javascript src="/plugins/jquery-ui.min.js"/>
   <g:javascript src="/plugins/jquery.dataTables-1.9.3.js" /> <%--the data tables use for presentation of votables --%>
 </g:else>
 
@@ -31,7 +35,8 @@
 <g:javascript src="/plugins/moment-1.7.2.min.js"/> <%-- a date parsing and formatting utility --%>
 <g:javascript src="/plugins/highcharts-2.2.3.min.js"/> <%-- a charting library --%>
 <g:javascript src="/plugins/highcharts-exporting-2.2.3.min.js"/> <%-- an extension for highcharts --%>
-<g:javascript src="/plugins/superfish-1.4.8.js"/> <%-- plugin to create a dropdown menu --%>
+<g:javascript src="/plugins/superfish.js"/> <%-- plugin to create a dropdown menu --%>
+
 
 <%-- HELIO java scripts --%>
 <g:javascript src="/helio/helio-main.js"/><%--basic initialization of the HELIO environment--%>

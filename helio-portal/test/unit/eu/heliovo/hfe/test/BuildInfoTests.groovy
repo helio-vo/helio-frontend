@@ -1,8 +1,7 @@
 package eu.heliovo.hfe.test;
 
-import static org.junit.Assert.assertNotNull
-
-import org.junit.Test
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class BuildInfoTests {
 	

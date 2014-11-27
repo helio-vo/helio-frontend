@@ -35,17 +35,19 @@ class TaskController {
         if (!taskDescriptor) {
             throw new RuntimeException("Unknown task name " + taskName)
         }
-
+		
+		
         // load previous task from database
         Task task = defaultsService.loadTask(taskName)
+		def paramDroppableName = '_' + task.taskName//'ParamSet_parkerplot'
 
         // check for defined template
         if (taskDescriptor.template) {
-            render (template: taskDescriptor.template, , model: [task:task, taskDescriptor: taskDescriptor])
+            render (template: taskDescriptor.template, , model: [task:task, taskDescriptor: taskDescriptor]) //, paramDroppableName:paramDroppableName])
         } else {
             //render the default template
             def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0]
-            render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
+            render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange]) //, paramDroppableName:paramDroppableName])
         }
     }
 

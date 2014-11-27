@@ -199,7 +199,7 @@ $(document).ready(function() {
 					helio.taskMap.put(taskName, task);
 				}
 				task.init.call(task);
-				$('ul.sf-menu').hideSuperfishUl();
+				$('ul.sf-menu > li > ul').hide();
 			});
 		});
 	};

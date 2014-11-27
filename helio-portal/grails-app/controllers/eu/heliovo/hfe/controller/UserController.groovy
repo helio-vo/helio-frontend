@@ -1,7 +1,6 @@
 package eu.heliovo.hfe.controller
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
 
 import eu.heliovo.hfe.model.security.*
 import grails.converters.JSON

@@ -55,7 +55,7 @@ class DataCartController {
         if (data.type =='TimeRange') {
             newParam = new TimeRangeParam()
             // parse data item
-            bindData(newParam, data)
+            bindData(newParam, data, [exclude:['timeRanges']])
     
             // bind time ranges
             data.timeRanges?.each{ timeRange->

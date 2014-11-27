@@ -1,11 +1,11 @@
 package eu.heliovo.hfe.service
 
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils;
+import grails.plugin.springsecurity.SpringSecurityUtils;
 
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.security.User
-import grails.plugins.springsecurity.SpringSecurityService;
+import grails.plugin.springsecurity.SpringSecurityService;
 import grails.test.*
 
 class ParamServiceTests extends GrailsUnitTestCase {

@@ -79,11 +79,11 @@ helio.VOTableResult.prototype.init = function() {
     $(".tabs_votable_result").tabs(); // tab for plot/tabular view
     
     // 3. enable ok-dialogs (but first destroy any existing dialog)
+    $(".ok_dialog_init").dialog('destroy');
     $(".ok_dialog")
-    .dialog('destroy')
     .dialog({ autoOpen: false, modal: true, width: 600,
         buttons: { "Ok": function() { $(this).dialog("close"); }},
-    });
+    }).addClass('ok_dialog_init');
     
     // 4. make result area collapsible
     $.collapsible(".votableResultHeader", "votableResult");
@@ -109,8 +109,8 @@ helio.VOTableResult.prototype.init = function() {
     });
 
     // 8. init result table when tab is first opened.
-    $("#tabs_votables").bind('tabsselect', function(event, ui) {
-        $(ui.panel).find(".resultTable").each(function() {
+    $("#tabs_votables").on('tabsactivate', function(event, ui) {
+        $(ui.newPanel).find(".resultTable").each(function() {
             if (!$(this).hasClass('dataTable') ) {
                 var tableIndex = this.id.split('_')[2];
                 
@@ -133,19 +133,19 @@ helio.VOTableResult.prototype.init = function() {
    
     // trigger selection of the first tab once the dialog is closed.
     var firstTab = $('#tabs_votables div').filter(':first');
-    $("#tabs_votables").trigger('tabsselect', [{panel : firstTab }]);
+    $("#tabs_votables").trigger('tabsactivate', [{newPanel : firstTab }]);
     
     // 9. switch between tabular / plot view of a votable and init plot view on first invocation of the tab
-    $(".tabs_votable_result").bind('tabsselect', function(event, ui) {
-        if (ui.panel.id.indexOf('tab_votable_plot_') == 0) {
+    $(".tabs_votable_result").on('tabsactivate', function(event, ui) {
+        if (ui.newPanel.attr('id').indexOf('tab_votable_plot_') == 0) {
             $(".tabs_votable_result").unbind(event);
-            var tmp = ui.panel.id.split('_');
+            var tmp = ui.newPanel.attr('id').split('_');
             var resultId = tmp[3];
             var tableIndex = tmp[4];
             
             var containerName = 'table_' + resultId + '_' + tableIndex + '_plot';
             var additionalContainerName = 'table_' + resultId + '_' + tableIndex + '_plot_options';
-            var chartTitleName = $(ui.panel).find('input[name="plotTitle"]').val();
+            var chartTitleName = $(ui.newPanel).find('input[name="plotTitle"]').val();
             var catalogueName = chartTitleName.split('-')[1];
             // load plot data.
             $.ajax({
@@ -495,7 +495,7 @@ helio.VOTableResult.prototype._showExtractParamsDialog = function(timeRanges, me
  * @param {Node} source the source button that called this function
  */
 helio.VOTableResult.prototype._extractInstrumentParams = function(source) {
-    // create a new data object.
+	// create a new data object.
     var data = new helio.Instrument('datacart', 'extracted');
 
     // find the id of the currently selected resource table
@@ -538,6 +538,7 @@ helio.VOTableResult.prototype._extractInstrumentParams = function(source) {
     }
     var dummyTask = new helio.AbstractTask("datacart", null);
     var dialog = new helio.InstrumentDialog(dummyTask, "datacart", data);
+    debugger;
     dialog.show(function() {
         helio.dataCart.addItem(data); 
         var rowpos = $('#datacart_container').position();

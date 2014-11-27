@@ -3,7 +3,7 @@ package eu.heliovo.hfe.model.task
 import eu.heliovo.hfe.model.param.TimeRangeParam;
 import eu.heliovo.hfe.model.result.LocalVOTableResult;
 import eu.heliovo.hfe.model.security.User;
-import grails.plugins.springsecurity.SpringSecurityService;
+import grails.plugin.springsecurity.SpringSecurityService;
 import grails.test.*
 
 class TaskTests extends GrailsUnitTestCase {

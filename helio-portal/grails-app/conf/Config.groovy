@@ -102,15 +102,32 @@ log4j = {
 }    
  
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'eu.heliovo.hfe.model.security.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'eu.heliovo.hfe.model.security.UserRole'
-grails.plugins.springsecurity.authority.className = 'eu.heliovo.hfe.model.security.Role'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'eu.heliovo.hfe.model.security.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'eu.heliovo.hfe.model.security.UserRole'
+grails.plugin.springsecurity.authority.className = 'eu.heliovo.hfe.model.security.Role'
 
-grails.plugins.springsecurity.providerNames = [
+grails.plugin.springsecurity.providerNames = [
     'daoAuthenticationProvider',
     //'cisAuthenticationProvider',
     'rememberMeAuthenticationProvider',
     'anonymousAuthenticationProvider']
+
+grails.plugin.springsecurity.rejectIfNoRule = false
+grails.plugin.springsecurity.fii.rejectPublicInvocations = false
+
+grails.plugin.springsecurity.securityConfigType = 'InterceptUrlMap'
+grails.plugin.springsecurity.interceptUrlMap = [
+	'/':                              ['permitAll'],
+	'/index':                         ['permitAll'],
+	'/index.gsp':                     ['permitAll'],
+	'/**/js/**':                      ['permitAll'],
+    '/**/js/**/**':                   ['permitAll'],
+	'/**/css/**':                     ['permitAll'],
+	'/**/images/**':                  ['permitAll'],
+	'/**/favicon.ico':                ['permitAll'],
+	'/login/**':                      ['permitAll'],
+	'/logout/**':                     ['permitAll']
+]
 
 // some remember me settings
 rememberMe.cookieName = 'helio-frontend'

@@ -275,7 +275,7 @@ helio.ParamSetEntry.prototype.toJSON = function() {
  */
 helio.Instrument = function(taskName, name) {
     helio.AbstractModel.apply(this, [taskName, name, 'Instrument']);
-    this.name = name;
+    this.name = name; //todo: consider removing this line
     this.instruments = {}; // map of instrumentEntries, use setInstrument and removeInstrument to modify.
 };
 

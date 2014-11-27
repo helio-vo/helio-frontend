@@ -65,7 +65,8 @@ helio.DataCart.prototype._handleSliderSlide = function(event, ui) {
  * @param {helio.AbstractModel} dataItem, the data Item to add.
  */
 helio.DataCart.prototype.addItem = function(dataItem) {
-    var THIS = this;
+	var test = dataItem.timeRanges;
+	var THIS = this;
     this.data = $.postJSON(
         './dataCart/create',
         {data : JSON.stringify(dataItem, this._jsonReplacer)},
@@ -145,7 +146,7 @@ helio.DataCart.prototype.render = function() {
                 cartItem.name = cartItem.taskName != null ? cartItem.taskName : "no name";
             }
             
-            switch (cartItem.class) {
+           switch (cartItem.class) {
             case 'eu.heliovo.hfe.model.param.TimeRangeParam':
                 dataObject = new helio.TimeRanges(cartItem.taskName, cartItem.name);
                 dataObject.timeRanges = [];
@@ -210,8 +211,9 @@ helio.DataCart.prototype.render = function() {
                 dialogFactory = null;
                 break;
             }
-            
-            var draggableClass = 'cartitemDraggable' + dataObject.type + (dataObject.subtype ? '_' + dataObject.subtype : '');
+           
+            var fullTypeName = dataObject.type + (dataObject.subtype ? '_' + dataObject.subtype : '');
+            var draggableClass = 'cartitemDraggable' + fullTypeName;
             var cartItemDiv= $('<div  title="' + jQuery.escapeHTML(cartItem.name) + '" class="cartitem ' + draggableClass + '"></div>');
             var img = $('<img class="cartitem_image ' + draggableClass + '" alt="' + dataObject.type + '"/>').attr('src', './images/helio/circle_' + dataObject.type + '.png');
             cartItemDiv.append(img);
@@ -244,6 +246,18 @@ helio.DataCart.prototype.render = function() {
                 })(img),
                 zIndex: 1700
             });
+            
+            /*
+             * Double click to simulate drag-n-drop
+             */
+            cartItemDiv.dblclick(function() {
+            	var triggerName = "update" + fullTypeName;
+            	var paramDroppables = $(".paramDroppable"+fullTypeName);
+            	if(paramDroppables.length == 1) {
+            		$(".paramDroppable"+fullTypeName).trigger(triggerName, [cartItemDiv, dataObject]);
+            	}
+        	});
+            
             
             // move the icon around
             if (editCartItem) {
