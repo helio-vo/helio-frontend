@@ -226,6 +226,72 @@ helio.AbstractSummary.prototype.init = function() {
         },
         zIndex: 1700
     });
+    
+    
+    // 9. init context menu
+    var contextMenuDiv = $(".paramDroppable" + THIS.droppableName).parent().find(".contextMenu");
+
+    var hideContextMenu = function() { 
+    	contextMenuDiv.hide()
+    	contextMenuDiv.find(".itemList").empty();
+    };
+    
+    var drawCartItems = function() { 
+    	contextMenuDiv.find(".itemList").empty();
+    	var typeName = contextMenuDiv.attr('data-type');
+    	var dataModelList = helio.dataCart.getDataModelByClass(typeName);
+    	
+    	if(dataModelList.length > 0) {
+	    	$.each(dataModelList, function(index, dataObject){
+	    		var dataObjectName = dataObject.name ? dataObject.name : dataObject.taskName;
+	    		var summary = THIS._renderSummary(dataObject);
+
+	    		var listEntry = $('<li><div>' + dataObjectName + '</div></li>');
+	    		listEntry.data('data', dataObject);
+	  			listEntry.click(function() {
+	  				THIS.data = $(this).data('data');
+	  	            THIS.__render(THIS.data);
+	  				
+	  	        	hideContextMenu();
+	  			});
+	  			
+	  			contextMenuDiv.find(".itemList").append(listEntry);
+	  			if(summary != null) {
+	  				listEntry.html(summary);
+	  			}
+	  			
+	    	});
+    	}
+    };
+    
+    var showContextMenu = function() {
+    	drawCartItems();
+    	contextMenuDiv.show('normal');
+	};
+    
+    hideContextMenu();
+    
+    $(".paramDroppable" + THIS.droppableName).click(function(){
+    	showContextMenu();
+    });
+    
+    contextMenuDiv.find(".closeContextMenu").click(function(){
+    	hideContextMenu();
+    });
+    
+    contextMenuDiv.find("li").click(function(){
+    	hideContextMenu();
+    });
+    
+    	// click handler for adding cart item
+    contextMenuDiv.find('.addToDataCard').click(function() {
+    	var triggerName = 'addCardItem';
+    	if(THIS.data != null) {
+    		var dataObject = $.extend(true, {}, THIS.data);
+    		$('#datacart_scrollarea').trigger(triggerName, [dataObject]);
+    	}
+
+    });
 };
 
 

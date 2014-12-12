@@ -9,8 +9,20 @@ Expected params:
     <table style="margin-bottom: 10px;">
       <tr>
         <td valign="top">
-          <div class="paramDroppable <g:if test="${paramDroppableName}">paramDroppableParamSet_${paramDroppableName}</g:if> paramDroppable${paramName} show${paramName}Dialog" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+          <div class="paramDroppable <g:if test="${paramDroppableName}">paramDroppableParamSet_${paramDroppableName}</g:if> paramDroppable${paramName}" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
             <img id="img${paramName}Summary" class="paramDraggable paramDraggable${paramName}"  style="margin:11px" src="${resource(dir:'images/helio',file:'circle_' + paramName + '_grey.png')}" />
+          </div>
+          <div class="contextMenu show${paramName}<g:if test="${paramDroppableName}">_${paramDroppableName}</g:if>_ContextDialog" data-type="${paramName}<g:if test="${paramDroppableName}">_${paramDroppableName}</g:if>">
+          		<ul class="listBorderBottom">
+					<li class="show${paramName}Dialog">Select new ${paramName}</li>
+					<li class="addToDataCard">Add ${paramName } to data cart</li>
+					
+				</ul>
+				<p>Select ${paramName} from data cart</p>
+				<ul class="itemList">
+					
+				</ul>
+				<div class="button${paramName} closeContextMenu" style="float:right;">Close</div>
           </div>
         </td>
         <td rowspan="2" id="text${paramName}Summary" class="candybox summaryBox showDialog show${paramName}Dialog" >
@@ -19,12 +31,7 @@ Expected params:
            <div class="button${paramName} clear${paramName}Summary">Clear</div>
         </td>
       </tr>
-      <tr align="center">
-        <td>
-          <div class="button${paramName} show${paramName}Dialog">Select</div>
-        </td>
-      </tr>
-    </table>
+	</table>
   </td>
   <td style="border-top: solid 1px gray; vertical-align: top;">
     <div class="message"><b>Step ${step}</b><br/><g:message code="input.summary.${paramName}.helptext" /></div>

@@ -39,15 +39,17 @@ class TaskController {
 		
         // load previous task from database
         Task task = defaultsService.loadTask(taskName)
-		def paramDroppableName = '_' + task.taskName//'ParamSet_parkerplot'
+		
+		//load existing cart item for task
+		
 
         // check for defined template
         if (taskDescriptor.template) {
-            render (template: taskDescriptor.template, , model: [task:task, taskDescriptor: taskDescriptor]) //, paramDroppableName:paramDroppableName])
+            render (template: taskDescriptor.template, , model: [task:task, taskDescriptor: taskDescriptor])
         } else {
             //render the default template
             def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0]
-            render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange]) //, paramDroppableName:paramDroppableName])
+            render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
         }
     }
 

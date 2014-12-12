@@ -778,3 +778,50 @@ details_link {
 	cursor: move;
 	opacity: 1.0;
 }
+
+/*************** context menu *******************/
+.contextMenu {
+	position: absolute;
+	z-index: 1700;
+	margin: 50px;
+	padding: 15px;
+	background: url("../images/helio/shadow_gradient.gif") repeat-x scroll center bottom #fefeff;
+    border: 2px solid #c3c6ca;
+    border-radius: 5px;
+    box-shadow: 0 1px 1px #dfdfdf;
+	width: 250px;
+	color:#006dba;
+    font-family:Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+    font-size:1em;
+    line-height: 200%;
+}
+
+.contextMenu ul {
+	list-style-type: none;
+	border-bottom: 1px solid #006dba;
+	padding:0;
+	margin: 0;
+}
+
+.contextMenu li {
+  	border-bottom: 1px solid #ccc;
+  	margin-bottom: 5px;
+}
+
+.contextMenu li:last-child {
+  	border: none;
+}
+
+.contextMenu ul li:hover {
+    background-color:#fdf5ce;
+    cursor: pointer; cursor: hand;
+}
+
+.contextMenu a {
+	text-decoration: none;
+	color:#006dba;
+}
+
+.closeContextMenu {
+	margin-top: 10px;
+}
