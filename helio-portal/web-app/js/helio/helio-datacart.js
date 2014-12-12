@@ -158,8 +158,8 @@ helio.DataCart.prototype.addItem = function(dataItem) {
         {data : JSON.stringify(dataItem, this._jsonReplacer)},
         function(data, textStatus, jqXHR) {
             THIS.data = data;
-            THIS.render.call(THIS);
             THIS._updateDataModel(data);
+            THIS.render.call(THIS);
         }
     );
 };
@@ -176,8 +176,8 @@ helio.DataCart.prototype.update = function(dataItem) {
         {id : dataItem.id, data : JSON.stringify(dataItem, this._jsonReplacer)},
         function(data, textStatus, jqXHR) {
             THIS.data = data;
-            THIS.render.call(THIS);
             THIS._updateDataModel(data);
+            THIS.render.call(THIS);
         }
     );
 };
@@ -193,9 +193,10 @@ helio.DataCart.prototype.deleteItem = function(dataItem) {
         './dataCart/delete',
         {data : JSON.stringify(dataItem, this._jsonReplacer)},
         function(data, textStatus, jqXHR) {
-            THIS.data = data;
+        	THIS.data = data;
+        	THIS._updateDataModel(data);
             THIS.render.call(THIS);
-            THIS._updateDataModel(data);
+            
         }
     );
 };
@@ -220,89 +221,30 @@ helio.DataCart.prototype.render = function() {
     var THIS = this;
     // loop over the data items
     var dataCartDivs = [];
-    if (this.data && this.data.cartItems) {        
+    if (this.dataModel) {        
         
-        $.each(this.data.cartItems, function(index, cartItem) {
+    	$.each(this.dataModel, function(index, dataObject) {
             // name of the task
-            var taskName = cartItem.taskName; // != null ? cartItem.taskName : "datacart";
+            var taskName = dataObject.taskName;
             
             var task = {};              // not sure we need a task
             var dataObject;             // helio-model javascript object holding the data
             var dialogFactory;          // the dialog factory bound to this item. This is basically a function that opens the dialog.
             
-            if (cartItem.name == null) {
-                cartItem.name = cartItem.taskName != null ? cartItem.taskName : "no name";
+            if (dataObject.name == null) {
+            	dataObject.name = dataObject.taskName != null ? dataObject.taskName : "no name";
             }
             
-           switch (cartItem.class) {
-            case 'eu.heliovo.hfe.model.param.TimeRangeParam':
-                dataObject = new helio.TimeRanges(cartItem.taskName, cartItem.name);
-                dataObject.timeRanges = [];
-                dataObject.id = cartItem.id;
-                $.each (cartItem.timeRanges, function(index, timeRange) {
-                    dataObject.timeRanges.push(new helio.TimeRange(timeRange.startTime.replace('Z', ''), timeRange.endTime.replace('Z', '')));
-                });
-                dialogFactory = (function(task, taskName, dataObject) { 
-                    return function() {
-                        return new helio.TimeRangeDialog(task, taskName, dataObject);
-                    };
-                })(task, taskName, dataObject);
-                
-                break;
-            case 'eu.heliovo.hfe.model.param.ParamSet':
-            	dataObject = THIS._newParamSet(cartItem.taskName, cartItem.name, cartItem.entries);
-            	
-                taskName = cartItem.taskName != null ? cartItem.taskName : taskName;
-                dataObject.id = cartItem.id;
-                dialogFactory = (function(task, taskName, dataObject) { 
-                    return function() {
-                        return new helio.ParamSetDialog(task, taskName, dataObject);
-                    };
-                })(task, taskName, dataObject);
-                
-                break;
-            case 'eu.heliovo.hfe.model.param.InstrumentParam':
-                dataObject = new helio.Instrument(taskName, cartItem.name);
-                for (var i = 0; i < cartItem.instruments.length; i++) {
-                    var instr = cartItem.instruments[i];
-                    dataObject.setInstrument(instr); 
-                }
-                dataObject.id = cartItem.id;
-                dialogFactory = (function(task, taskName, dataObject) { 
-                    return function() {
-                        return new helio.InstrumentDialog(task, taskName, dataObject);
-                    };
-                })(task, taskName, dataObject);
-                break;                
-            case 'eu.heliovo.hfe.model.param.EventListParam':
-                dataObject = new helio.EventList(cartItem.taskName, cartItem.name);
-                // loop over event lists
-                for (var i = 0; i < cartItem.entries.length; i++) {
-                	var eventListEntry = cartItem.entries[i];
-                	
-                	// find according param set
-                	var paramSet = undefined;
-                	if (eventListEntry.whereClause) {
-                		paramSet = THIS._newParamSet.call(THIS, cartItem.taskName, "whereClause", eventListEntry.whereClause.entries);
-                	}
-                	dataObject.addEntry(eventListEntry.listName, paramSet);
-                }
-                dataObject.id = cartItem.id;
-                dialogFactory = (function(task, taskName, dataObject) { 
-                    return function() {
-                        return new helio.EventListDialog(task, taskName, dataObject);
-                    };
-                })(task, taskName, dataObject);
-                break;
-            default:
-                dataObject = new helio.AbstractModel("Unsupported " + cartItem.class, 'block');
-                dialogFactory = null;
-                break;
-            }
+            //Dialog factory
+            dialogFactory = (function(task, taskName, dataObject) { 
+                return function() {
+                    return new helio[dataObject.type + 'Dialog'](task, taskName, dataObject);
+                };
+            })(task, taskName, dataObject);
            	
             var fullTypeName = dataObject.type + (dataObject.subtype ? '_' + dataObject.subtype : '');
             var draggableClass = 'cartitemDraggable' + fullTypeName;
-            var cartItemDiv= $('<div  title="' + jQuery.escapeHTML(cartItem.name) + '" class="cartitem ' + draggableClass + '"></div>');
+            var cartItemDiv= $('<div  title="' + jQuery.escapeHTML(dataObject.name) + '" class="cartitem ' + draggableClass + '"></div>');
             var img = $('<img class="cartitem_image ' + draggableClass + '" alt="' + dataObject.type + '"/>').attr('src', './images/helio/circle_' + dataObject.type + '.png');
             cartItemDiv.append(img);
             var removeCartItem = $('<div class="cartitem_close ui-state-default ui-corner-all" title="Remove parameter">' +
@@ -317,7 +259,7 @@ helio.DataCart.prototype.render = function() {
                 editCartItem = null;
             }
 
-            var cartItemLabel = $('<span class="cartitem_label">' + jQuery.escapeHTML(cartItem.name) + '</span>');
+            var cartItemLabel = $('<span class="cartitem_label">' + jQuery.escapeHTML(dataObject.name) + '</span>');
             cartItemDiv.append(cartItemLabel);
             
             // attach data to cartItemDiv
@@ -406,8 +348,6 @@ helio.DataCart.prototype.render = function() {
             }
         }
     });
-    
-    
 };
 
 
