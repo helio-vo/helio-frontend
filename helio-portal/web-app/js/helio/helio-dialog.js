@@ -242,7 +242,8 @@ helio.AbstractSummary.prototype.init = function() {
     	var dataModelList = helio.dataCart.getDataModelByClass(typeName);
     	
     	if(dataModelList.length > 0) {
-	    	$.each(dataModelList, function(index, dataObject){
+    		contextMenuDiv.find(".itemList").css("height","150px");
+    		$.each(dataModelList, function(index, dataObject){
 	    		var dataObjectName = dataObject.name ? dataObject.name : dataObject.taskName;
 	    		var summary = THIS._renderSummary(dataObject);
 
@@ -261,6 +262,10 @@ helio.AbstractSummary.prototype.init = function() {
 	  			}
 	  			
 	    	});
+    	} else {
+    		var listEntry = $('<li><div style="font-style:italic;">No cart items available.</div></li>');
+    		contextMenuDiv.find(".itemList").css("height","20px"); 
+    		contextMenuDiv.find(".itemList").append(listEntry);
     	}
     };
     

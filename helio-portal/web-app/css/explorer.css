@@ -786,7 +786,7 @@ details_link {
 	margin: 50px;
 	padding: 15px;
 	background: url("../images/helio/shadow_gradient.gif") repeat-x scroll center bottom #fefeff;
-    border: 2px solid #c3c6ca;
+    border: 1px solid #c3c6ca;
     border-radius: 5px;
     box-shadow: 0 1px 1px #dfdfdf;
 	width: 250px;
@@ -801,6 +801,11 @@ details_link {
 	border-bottom: 1px solid #006dba;
 	padding:0;
 	margin: 0;
+}
+
+.contextMenu .itemList {
+	overflow:hidden; overflow-y:scroll;
+	height:150px;
 }
 
 .contextMenu li {
