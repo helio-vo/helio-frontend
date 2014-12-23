@@ -13,16 +13,14 @@ Expected params:
             <img id="img${paramName}Summary" class="paramDraggable paramDraggable${paramName}"  style="margin:11px" src="${resource(dir:'images/helio',file:'circle_' + paramName + '_grey.png')}" />
           </div>
           <div class="contextMenu show${paramName}<g:if test="${paramDroppableName}">_${paramDroppableName}</g:if>_ContextDialog" data-type="${paramName}<g:if test="${paramDroppableName}">_${paramDroppableName}</g:if>">
-          		<ul class="listBorderBottom">
+          		<ul style="line-height:200%">
 					<li class="show${paramName}Dialog">Select new ${paramName}</li>
 					<li class="addToDataCard">Add ${paramName } to data cart</li>
-					
 				</ul>
 				<p>Select ${paramName} from data cart</p>
 				<ul class="itemList">
 					
 				</ul>
-				<div class="button${paramName} closeContextMenu" style="float:right;">Close</div>
           </div>
         </td>
         <td rowspan="2" id="text${paramName}Summary" class="candybox summaryBox showDialog show${paramName}Dialog" >

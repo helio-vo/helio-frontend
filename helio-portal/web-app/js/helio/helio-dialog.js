@@ -232,7 +232,7 @@ helio.AbstractSummary.prototype.init = function() {
     var contextMenuDiv = $(".paramDroppable" + THIS.droppableName).parent().find(".contextMenu");
 
     var hideContextMenu = function() { 
-    	contextMenuDiv.hide()
+    	contextMenuDiv.dialog().dialog('close');
     	contextMenuDiv.find(".itemList").empty();
     };
     
@@ -271,17 +271,23 @@ helio.AbstractSummary.prototype.init = function() {
     
     var showContextMenu = function() {
     	drawCartItems();
-    	contextMenuDiv.show('normal');
+    	contextMenuDiv.dialog({
+    		title: 'Context Menu',
+    		width: '450px',
+    		modal: true,
+    		resizable: false,
+    		position: { 
+    		    my: 'left',
+    		    at: 'left',
+    		    of: $("#content")
+    		}    	
+    	});
 	};
     
     hideContextMenu();
     
     $(".paramDroppable" + THIS.droppableName).click(function(){
     	showContextMenu();
-    });
-    
-    contextMenuDiv.find(".closeContextMenu").click(function(){
-    	hideContextMenu();
     });
     
     contextMenuDiv.find("li").click(function(){
@@ -291,12 +297,16 @@ helio.AbstractSummary.prototype.init = function() {
     	// click handler for adding cart item
     contextMenuDiv.find('.addToDataCard').click(function() {
     	var triggerName = 'addCardItem';
-    	if(THIS.data != null) {
+    	if(THIS.data != null) {    		
     		var dataObject = $.extend(true, {}, THIS.data);
     		$('#datacart_scrollarea').trigger(triggerName, [dataObject]);
     	}
 
     });
+    
+ // 10. Hide Dialog for adding item to data cart
+	var dialogDiv = $('#addItemDataCartDialog');
+    dialogDiv.hide();
 };
 
 

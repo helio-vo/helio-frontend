@@ -151,23 +151,143 @@ helio.DataCart.prototype._updateDataModel = function(data) {
  * @param {helio.AbstractModel} dataItem, the data Item to add.
  */
 helio.DataCart.prototype.addItem = function(dataItem) {
-	var test = dataItem.timeRanges;
 	var THIS = this;
-    this.data = $.postJSON(
-        './dataCart/create',
-        {data : JSON.stringify(dataItem, this._jsonReplacer)},
-        function(data, textStatus, jqXHR) {
-            THIS.data = data;
-            THIS._updateDataModel(data);
-            THIS.render.call(THIS);
-        }
-    );
+	var dataName = dataItem.name ? dataItem.name : dataItem.taskName;
+	var dataModelList = THIS.dataModel;
+	
+	var existingItem = null;
+	$.each(dataModelList, function(index, dataObject){
+		var dataObjectName = dataObject.name ? dataObject.name : dataObject.taskName;
+		if(dataName == dataObjectName && dataObject.type == dataItem.type) {
+			existingItem = dataObject;
+		}
+	});
+	
+	if(existingItem != null) {
+		THIS.addItemDialog(dataItem, existingItem);
+	} else {
+		this.data = $.postJSON(
+	        './dataCart/create',
+	        {data : JSON.stringify(dataItem, this._jsonReplacer)},
+	        function(data, textStatus, jqXHR) {
+	            THIS.data = data;
+	            THIS._updateDataModel(data);
+	            THIS.render.call(THIS);
+	        }
+	    );
+	}
 };
 
 /**
- * Upate the content of an existing item and re-paint the cart.
- * This method also updates the server side.
- * @param {helio.AbstractModel} dataItem, the data Item to add.
+ * Show a dialog when already an item with the same name exists in the data cart
+ * 3 possible answers: Rename item, Overwrite existing item, Create new item with same name
+ */
+helio.DataCart.prototype.addItemDialog = function(dataItem, existingItem) {
+	var THIS = this;
+	var dataName = dataItem.name ? dataItem.name : dataItem.taskName;
+	var dialogDiv = $("#addItemDataCartDialog");
+	var dataModelList = THIS.dataModel;
+	
+	//fill div content
+	dialogDiv.find('input[name="dataItemName"]').val(dataName);
+	dialogDiv.find("label[for='itemName']").text(dataName);
+	dialogDiv.find(".sameNameItemList").empty();
+	var existingItems = [];
+	
+	$.each(dataModelList, function(index, dataObject){
+		var dataObjectName = dataObject.name ? dataObject.name : dataObject.taskName;
+		if(dataName == dataObjectName && dataObject.type == dataItem.type) {
+			existingItems.push(dataObject);
+		}
+	});
+	
+	if(existingItems.length > 0) {
+		$.each(existingItems, function(index, dataObject){
+    		var dataObjectName = dataObject.name ? dataObject.name : dataObject.taskName;
+    		var summary = dataObject.name ? dataObject.name: dataObject.taskName; //helio.TimeRangeSummary._renderSummary(dataObject);
+
+    		var button = $('<button class="createItem button ui-corner-all">' + dataObjectName + '</button><br/>');
+    		button.data('data', dataObject);
+    		button.click(function() {
+  				dataItem.id = dataObject.id;
+  				THIS.update(dataItem);
+  				dialogDiv.dialog().dialog("close");
+  			});
+  			
+  			dialogDiv.find(".sameNameItemList").append(button);
+  			if(summary != null) {
+  				button.html(summary);
+  			}
+  			
+    	});
+	} else {
+		var listEntry = $('<li><div style="font-style:italic;">No cart items available.</div></li>');
+		contextMenuDiv.find(".itemList").css("height","20px"); 
+		contextMenuDiv.find(".itemList").append(listEntry);
+	}
+	
+	//rename item
+	var handlerRename = function() {
+		var newName = $("#addItemDataCartDialog").find('input[name="dataItemName"]').val();
+		if (newName != null && newName != "") {
+			dataItem.name = newName;
+			this.data = $.postJSON('./dataCart/create', {
+				data : JSON.stringify(dataItem,
+						this._jsonReplacer)
+			}, function(data, textStatus, jqXHR) {
+				THIS.data = data;
+				THIS._updateDataModel(data);
+				THIS.render.call(THIS);
+			});
+			dialogDiv.dialog().dialog("close");
+			$("#addItemDataCartDialog").find('input[name="dataItemName"]').val('');
+			dialogDiv.find(".renameItem").unbind( "click", this);
+		}
+	};
+	dialogDiv.find(".renameItem").bind( "click", handlerRename );
+	
+	//overwrite existing item
+	dialogDiv.find(".overwriteItem").one( 'click', function(){	
+		dataItem.id = existingItem.id;
+		THIS.update(dataItem);
+		dialogDiv.dialog().dialog("close");
+	});
+
+	//create item with same name
+	dialogDiv.find(".createItem").one( 'click', function(){	
+		this.data = $.postJSON('./dataCart/create', {
+			data : JSON.stringify(dataItem, this._jsonReplacer)
+		}, function(data, textStatus, jqXHR) {
+			THIS.data = data;
+			THIS._updateDataModel(data);
+			THIS.render.call(THIS);
+		});
+		dialogDiv.dialog().dialog("close");
+	});
+	
+	$( "#accordion" ).accordion({
+		heightStyle: "content",
+		active: 0
+	});
+	
+	dialogDiv.dialog({
+		modal: true,
+		title: 'Name already existing',
+		width: '450px',
+		position: { 
+		    my: 'left',
+		    at: 'left',
+		    of: $("#content")
+		}
+	});
+}
+
+/**
+ * Upate the content of an existing item and re-paint the cart. This method also
+ * updates the server side.
+ * 
+ * @param {helio.AbstractModel}
+ *            dataItem, the data Item to add.
  */
 helio.DataCart.prototype.update = function(dataItem) {
     var THIS = this;

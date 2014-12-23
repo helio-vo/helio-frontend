@@ -781,35 +781,29 @@ details_link {
 
 /*************** context menu *******************/
 .contextMenu {
-	position: absolute;
-	z-index: 1700;
-	margin: 50px;
 	padding: 15px;
-	background: url("../images/helio/shadow_gradient.gif") repeat-x scroll center bottom #fefeff;
-    border: 1px solid #c3c6ca;
-    border-radius: 5px;
-    box-shadow: 0 1px 1px #dfdfdf;
-	width: 250px;
 	color:#006dba;
     font-family:Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
     font-size:1em;
-    line-height: 200%;
 }
 
 .contextMenu ul {
 	list-style-type: none;
-	border-bottom: 1px solid #006dba;
+	border-bottom: 1px solid #C69539; /*#006dba;*/
 	padding:0;
 	margin: 0;
 }
 
 .contextMenu .itemList {
-	overflow:hidden; overflow-y:scroll;
-	height:150px;
+	width: 400px;
+	overflow: hidden;
+	overflow-y: scroll;
+   /*  text-overflow:ellipsis;  */
+	height:180px;
 }
 
 .contextMenu li {
-  	border-bottom: 1px solid #ccc;
+  	border-bottom: 1px solid #FEB529; /*#ccc;*/
   	margin-bottom: 5px;
 }
 
@@ -829,4 +823,31 @@ details_link {
 
 .closeContextMenu {
 	margin-top: 10px;
+}
+
+.no-close .ui-dialog-titlebar-close {display: none }
+
+/******************** addItemDataCartDialog ***********************/
+#addItemDataCartDialog .button {
+	color: #006dba;
+	padding: 2px 5px;
+	border: 1px solid #ccc;
+	background-color: #F6F6F6;
+}
+
+#addItemDataCartDialog .button:hover {
+    background-color:#fdf5ce;
+    cursor: pointer; cursor: hand;
+}
+
+#addItemDataCartDialog label {
+	font-style: italic;
+}
+
+#addItemDataCartDialog .float-right {
+	float:right;
+}
+
+#addItemDataCartDialog .sameNameItemList .button {
+	margin:2px;
 }
