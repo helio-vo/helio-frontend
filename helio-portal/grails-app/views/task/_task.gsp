@@ -57,6 +57,7 @@
 				<div>
 					<p>Click on the item to overwrite.</p>
 					<div class="sameNameItemList"></div>
+					<div class="itemHoverInfo"><br></div>
 				</div>
 				<h3>Create a new item with the same name</h3>
 				<div>

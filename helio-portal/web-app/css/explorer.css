@@ -851,3 +851,8 @@ details_link {
 #addItemDataCartDialog .sameNameItemList .button {
 	margin:2px;
 }
+
+#addItemDataCartDialog .itemHoverInfo {
+	text-align:right;
+	font-style:italic;
+}

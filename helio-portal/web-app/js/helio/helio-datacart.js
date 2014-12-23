@@ -164,7 +164,7 @@ helio.DataCart.prototype.addItem = function(dataItem) {
 	});
 	
 	if(existingItem != null) {
-		THIS.addItemDialog(dataItem, existingItem);
+		THIS._addItemDialog(dataItem, existingItem);
 	} else {
 		this.data = $.postJSON(
 	        './dataCart/create',
@@ -182,7 +182,7 @@ helio.DataCart.prototype.addItem = function(dataItem) {
  * Show a dialog when already an item with the same name exists in the data cart
  * 3 possible answers: Rename item, Overwrite existing item, Create new item with same name
  */
-helio.DataCart.prototype.addItemDialog = function(dataItem, existingItem) {
+helio.DataCart.prototype._addItemDialog = function(dataItem, existingItem) {
 	var THIS = this;
 	var dataName = dataItem.name ? dataItem.name : dataItem.taskName;
 	var dialogDiv = $("#addItemDataCartDialog");
@@ -194,37 +194,37 @@ helio.DataCart.prototype.addItemDialog = function(dataItem, existingItem) {
 	dialogDiv.find(".sameNameItemList").empty();
 	var existingItems = [];
 	
+	var counter = 0;
 	$.each(dataModelList, function(index, dataObject){
+		counter = counter + 1;
 		var dataObjectName = dataObject.name ? dataObject.name : dataObject.taskName;
 		if(dataName == dataObjectName && dataObject.type == dataItem.type) {
-			existingItems.push(dataObject);
-		}
-	});
-	
-	if(existingItems.length > 0) {
-		$.each(existingItems, function(index, dataObject){
-    		var dataObjectName = dataObject.name ? dataObject.name : dataObject.taskName;
+			
     		var summary = dataObject.name ? dataObject.name: dataObject.taskName; //helio.TimeRangeSummary._renderSummary(dataObject);
-
-    		var button = $('<button class="createItem button ui-corner-all">' + dataObjectName + '</button><br/>');
+    		
+    		var button = $('<button data-id="' + counter + '" class="createItem button ui-corner-all">' + summary + '</button><br/>');
     		button.data('data', dataObject);
     		button.click(function() {
   				dataItem.id = dataObject.id;
   				THIS.update(dataItem);
   				dialogDiv.dialog().dialog("close");
   			});
-  			
+    		button.hover(
+				function () {
+					var number = $(this).attr("data-id");
+					dialogDiv.find('.itemHoverInfo').html("item no. " + number + " in data cart (left to right)");
+				}, 
+				function () {
+					dialogDiv.find('.itemHoverInfo').html("<br>");
+				}
+    		);
+
   			dialogDiv.find(".sameNameItemList").append(button);
   			if(summary != null) {
   				button.html(summary);
   			}
-  			
-    	});
-	} else {
-		var listEntry = $('<li><div style="font-style:italic;">No cart items available.</div></li>');
-		contextMenuDiv.find(".itemList").css("height","20px"); 
-		contextMenuDiv.find(".itemList").append(listEntry);
-	}
+		}
+	});
 	
 	//rename item
 	var handlerRename = function() {
