@@ -212,7 +212,7 @@ helio.DataCart.prototype._addItemDialog = function(dataItem, existingItem) {
     		button.hover(
 				function () {
 					var number = $(this).attr("data-id");
-					dialogDiv.find('.itemHoverInfo').html("item no. " + number + " in data cart (left to right)");
+					dialogDiv.find('.itemHoverInfo').html("item no. " + number + " in data cart");
 				}, 
 				function () {
 					dialogDiv.find('.itemHoverInfo').html("<br>");
