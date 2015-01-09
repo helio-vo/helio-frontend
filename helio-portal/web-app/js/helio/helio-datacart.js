@@ -277,7 +277,7 @@ helio.DataCart.prototype._addItemDialog = function(dataItem, existingItem) {
 		position: { 
 		    my: 'left',
 		    at: 'left',
-		    of: $("#content")
+		    of: $(".addItemDialogPosition")
 		}
 	});
 }

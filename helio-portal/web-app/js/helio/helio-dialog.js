@@ -279,7 +279,7 @@ helio.AbstractSummary.prototype.init = function() {
     		position: { 
     		    my: 'left',
     		    at: 'left',
-    		    of: $("#content")
+    		    of: $(".addItemDialogPosition")
     		}    	
     	});
 	};
@@ -287,6 +287,8 @@ helio.AbstractSummary.prototype.init = function() {
     hideContextMenu();
     
     $(".paramDroppable" + THIS.droppableName).click(function(){
+    	$('.addItemDialogPosition').removeClass('addItemDialogPosition');
+    	$(this).parent().parent().addClass('addItemDialogPosition');
     	showContextMenu();
     });
     
