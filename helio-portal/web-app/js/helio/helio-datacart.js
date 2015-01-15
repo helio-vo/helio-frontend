@@ -200,11 +200,12 @@ helio.DataCart.prototype._addItemDialog = function(dataItem, existingItem) {
 		var dataObjectName = dataObject.name ? dataObject.name : dataObject.taskName;
 		if(dataName == dataObjectName && dataObject.type == dataItem.type) {
 			
-    		var summary = dataObject.name ? dataObject.name: dataObject.taskName; //helio.TimeRangeSummary._renderSummary(dataObject);
+    		var summary = dataObject.name ? dataObject.name: dataObject.taskName;
     		
-    		var button = $('<button data-id="' + counter + '" class="createItem button ui-corner-all">' + summary + '</button><br/>');
+    		var button = $('<button data-id="' + counter + '" class="button ui-corner-all">' + summary + '</button><br/>');
     		button.data('data', dataObject);
-    		button.click(function() {
+    		//overwrite existing item
+    		button.click(function() {	
   				dataItem.id = dataObject.id;
   				THIS.update(dataItem);
   				dialogDiv.dialog().dialog("close");
@@ -231,27 +232,31 @@ helio.DataCart.prototype._addItemDialog = function(dataItem, existingItem) {
 		var newName = $("#addItemDataCartDialog").find('input[name="dataItemName"]').val();
 		if (newName != null && newName != "") {
 			dataItem.name = newName;
-			this.data = $.postJSON('./dataCart/create', {
-				data : JSON.stringify(dataItem,
-						this._jsonReplacer)
-			}, function(data, textStatus, jqXHR) {
-				THIS.data = data;
-				THIS._updateDataModel(data);
-				THIS.render.call(THIS);
-			});
+						this.data = $.postJSON('./dataCart/create', {
+							data : JSON.stringify(dataItem, this._jsonReplacer)}, 
+							function(data, textStatus, jqXHR) {
+							THIS.data = data;
+							THIS._updateDataModel(data);
+							THIS.render.call(THIS);
+						});
+						
+						this.data = $.postJSON(
+						        './dataCart/create',
+						        {data : JSON.stringify(dataItem, this._jsonReplacer)},
+						        function(data, textStatus, jqXHR) {
+						            THIS.data = data;
+						            THIS._updateDataModel(data);
+						            THIS.render.call(THIS);
+						        }
+						    );
+						
+						
 			dialogDiv.dialog().dialog("close");
 			$("#addItemDataCartDialog").find('input[name="dataItemName"]').val('');
 			dialogDiv.find(".renameItem").unbind( "click", this);
 		}
 	};
 	dialogDiv.find(".renameItem").bind( "click", handlerRename );
-	
-	//overwrite existing item
-	dialogDiv.find(".overwriteItem").one( 'click', function(){	
-		dataItem.id = existingItem.id;
-		THIS.update(dataItem);
-		dialogDiv.dialog().dialog("close");
-	});
 
 	//create item with same name
 	dialogDiv.find(".createItem").one( 'click', function(){	
