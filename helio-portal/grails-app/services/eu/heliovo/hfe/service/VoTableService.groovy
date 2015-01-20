@@ -72,7 +72,7 @@ class VoTableService {
         VOElement votableModel;
         if (helioResult instanceof LocalVOTableResult) {
             votableModel = stilUtils.readVOElement(new ByteArrayInputStream(helioResult.voTableContent.getBytes()), helioResult.originalFileName);
-            //votableModel = stilUtils.readVOElement(new URL("http://hec.ts.astro.it/hec/hec_gui_fetch.php?cmd=http%3A%2F%2Fhec.ts.astro.it%3A8081%2Fstilts%2Ftask%2Fsqlclient%3Fdb%3Djdbc%3Apostgresql%3A%2F%2Fhec.ts.astro.it%2Fhec%26user%3Dapache%26sql%3Dselect+%2A+from+goes_sxr_flare+where+time_start%3E%3D%272011-02-09+00%3A00%3A00%27+AND+time_start%3C%3D%272011-03-09+23%3A59%3A59%27%26ofmt%3Dvotable&type=votable"));
+            //votableModel = stilUtils.readVOElement(new URL("http://http://hec.helio-vo.eu/hec/hec_gui_fetch.php?cmd=http%3A%2F%2Fhec.ts.astro.it%3A8081%2Fstilts%2Ftask%2Fsqlclient%3Fdb%3Djdbc%3Apostgresql%3A%2F%2Fhec.ts.astro.it%2Fhec%26user%3Dapache%26sql%3Dselect+%2A+from+goes_sxr_flare+where+time_start%3E%3D%272011-02-09+00%3A00%3A00%27+AND+time_start%3C%3D%272011-03-09+23%3A59%3A59%27%26ofmt%3Dvotable&type=votable"));
         } else if (helioResult instanceof RemoteVOTableResult) {
             votableModel = stilUtils.readVOElement(new URL(helioResult.url));
         } else {

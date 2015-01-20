@@ -46,7 +46,7 @@
     	<a>Links</a>
     	<ul>
     		<li><a href="http://helio-vo.eu" target="_blank"><span class="external">Helio Main page</span></a></li>
-    		<li><a href="http://hec.ts.astro.it/hec/hec_gui.php" target="_blank"><span class="external">Helio Event Catalogue</span></a></li>
+    		<li><a href="http://hec.helio-vo.eu/hec/hec_gui.php" target="_blank"><span class="external">Helio Event Catalogue</span></a></li>
     		<li><a href="http://voparis-helio.obspm.fr/hfc-gui/" target="_blank"><span class="external">Helio Feature Catalogue</span></a></li>
     	</ul>
     </li>
