@@ -217,20 +217,20 @@ $(document).ready(function() {
 		$('#content').empty().load('misc/splash', function() {
 			// init splash buttons
 			initSplashButtons();
-			$('ul.sf-menu').hideSuperfishUl();
+			$('ul.sf-menu').superfish('hide');
 		});
 	});
 	initSplashButtons();
 
 	$('#misc_changelog').click(function() {
 		$('#content').empty().load('misc/changelog');
-		$('ul.sf-menu').hideSuperfishUl();
+		$('ul.sf-menu').superfish('hide');
 	});
 
 	var helpWindow = null;
 	$('#misc_help').click(function() {
 		// open help in new window
-		$('ul.sf-menu').hideSuperfishUl();
+		$('ul.sf-menu').superfish('hide');
 		if (helpWindow && !helpWindow.closed) {
 			helpWindow.focus();
 		} else {
