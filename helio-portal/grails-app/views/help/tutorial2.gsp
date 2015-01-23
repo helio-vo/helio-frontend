@@ -20,17 +20,23 @@
 	</h3>
 
 	<ol start="1" type="1">
+
 		<li>Drag &amp; drop from input area. After entering your data you
 			can drag the yellow circle from the summary box and drop it on the
 			data cart.</li>
+
+		<li>
+			Instead, you may as well double click on the item in the data cart.
+			It will then be added to the task automatically.
+		</li>
 	</ol>
 
 	<p>
-		<img width="70%" src="hfe_tutorial_v0.1-7-13_1.png" /><br /> Figure
+		<img width="100%" src="hfe_tutorial_v0.1-7-15_6.png" /><br /> Figure
 		12: Drag the yellow circle and drop it on the data cart
 	</p>
 
-	<ol start="2" type="1">
+	<ol start="3" type="1">
 		<li>Inspect a row of your result table. Click on the magnifying
 			glass to open the date inspector. Clicking the "Ok"-button will popup
 			a dialog and ask if the date values should be stored to the data
@@ -52,7 +58,7 @@
 		<a name="_Toc204246080">Manage the data cart</a>
 	</h3>
 
-	<ol start="4" type="1">
+	<ol start="5" type="1">
 		<li>Click on the pencil icon to modify the data cart item. This
 			is mainly useful to rename the item.</li>
 		<li>Click on the cross to remove a data cart item from the data
@@ -69,7 +75,7 @@
 		<a name="_Toc204246081">Connect a data cart item to a task</a>
 	</h3>
 
-	<ol start="6" type="1">
+	<ol start="7" type="1">
 		<li>Select the task you are interested in, e.g. click menu
 			"Search" - "Instruments by Capability"</li>
 		<li>Drop the previously stored time range to the grey circle.
@@ -77,12 +83,15 @@
 			allow you to edit the data <b>without </b>affecting the corresponding
 			item in the data cart.
 		</li>
+		<li>
+			Instead, you may as well click once on the yellow circle and then choose "Add item to data cart" in the context menu.
+		</li>
 	</ol>
 	<p>
-		<img  width="70%" src="hfe_tutorial_v0.1-7-14_2.png"><br /> Figure 15 Drag
-		item from data cart to the grey circle in the parameter section.
-		Possible target locations will be highlighted when the item is
-		dragged.
+		<img width="70%" src="hfe_tutorial_v0.1-7-15_7.png"><br />
+		Figure 15 Drag item from data cart to the grey circle in the parameter
+		section. Possible target locations will be highlighted when the item
+		is dragged.
 	</p>
 
 </body>
