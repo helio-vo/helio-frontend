@@ -7,14 +7,14 @@
 <body>
   <h2>Tutorial: Search for Events</h2>
   <p>
-    <img width="70%" src="hfe_tutorial_v0.1-7-6_1.png"><br /> Figure 1: The HFE welcome screen
+    <img width="70%" src="hfe_tutorial_v0.1-7-15_1.png"><br /> Figure 1: The HFE welcome screen
   </p>
 
   <ol start="1" type="1">
     <li>Click on "Search Events"</li>
   </ol>
   <p>
-    <img width="70%" src="hfe_tutorial_v0.1-7-7_1.png" /><br /> Figure 2: The empty form to search the HELIO event lists
+    <img width="70%" src="hfe_tutorial_v0.1-7-15_2.png" /><br /> Figure 2: The empty form to search the HELIO event lists
   </p>
 
 
@@ -23,13 +23,12 @@
   </h3>
 
   <ol start="2" type="1">
-    <li>Click on the <img height="16" style="margin: 0px; padding: 0px; border: none" src="hfe_tutorial_v0.1-7-7_2.png" />-icon or on the "Select" button
-      below or in the white area next to it to select a time range.
+    <li>Click on the <img height="16" style="margin: 0px; padding: 0px; border: none" src="hfe_tutorial_v0.1-7-7_2.png" />-icon or in the white area next to it to select a time range.
     </li>
   </ol>
 
   <p>
-    <img width="70%" src="hfe_tutorial_v0.1-7-7_3.png" /><br /> Figure 3 Area to enter date ranges. Depending on the selected task only a start date can be
+    <img width="70%" src="hfe_tutorial_v0.1-7-15_3b.png" /><br /> Figure 3 Area to enter date ranges. Depending on the selected task only a start date can be
     entered. Click on icon 'A' to popup the calendar to enter a date. Button 'B' allows adding another time range, i.e. to cover multiple events in one query.
     Icon 'C' allows removing a time range and is active only if there is more than one time range. Click on icon 'D' to open the date range inspector for the
     selected data range line. See below for more information.
@@ -75,7 +74,7 @@
     <li>Click Ok to close the data range dialog. This will update the summary box on your main screen.</li>
   </ol>
   
-  <p><img width="70%" src="hfe_tutorial_v0.1-7-9_2.png"><br/>
+  <p><img width="70%" src="hfe_tutorial_v0.1-7-15_4.png"><br/>
  Figure 6: Summary box with the selected date range</p>
 
   <h3>
@@ -92,7 +91,7 @@
   <ol start="7" type="1">
     <li>Click "ok" to accept your selection</li>
   </ol>
-  <p><img width="70%" src="hfe_tutorial_v0.1-7-10_2.png"><br/>
+  <p><img width="70%" src="hfe_tutorial_v0.1-7-15_5.png"><br/>
   Figure 8: The task is ready to be submitted</p>
 
   <ol start="8" type="1">
