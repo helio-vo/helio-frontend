@@ -39,6 +39,16 @@ class CatalogService {
         def startTime = timeRanges.collect{ it.startTime}
         def endTime = timeRanges.collect{ it.endTime}
         
+		List<String> startTimes = [];
+		for(Date d:startTime) {
+			startTimes.add(DateUtil.toIsoDateString(d))
+		}
+		
+		List<String> endTimes = [];
+		for(Date d:endTime) {
+			endTimes.add(DateUtil.toIsoDateString(d))
+		}
+		
         def taskDescriptor = task.findTaskDescriptor()
         def from = getFrom(task)
 
@@ -63,8 +73,8 @@ class CatalogService {
 			taskDescriptor.serviceCapability)
 
         // execute the service
-        catalogService.setStartTime(startTime)
-        catalogService.setEndTime(endTime)
+        catalogService.setStartTime(startTimes)
+        catalogService.setEndTime(endTimes)
         catalogService.setFrom(from)
         //catalogService.whereClauses
         catalogService.setMaxRecords(maxrecords)
