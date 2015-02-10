@@ -414,7 +414,7 @@ class TaskDescriptorService implements InitializingBean {
               "label" : "HELIO Event Catalogue",
               "description" : "Query the HELIO Event Catalogue",
               "serviceName" : HelioServiceName.HEC,
-              "serviceCapability" : ServiceCapability.SYNC_QUERY_SERVICE,
+              "serviceCapability" : ServiceCapability.LOCAL_QUERY_SERVICE,
               "serviceVariant" : null,
               "timeout" : 120,
 			  "help" : [ position: "bottom", template: "/dialog/paramSetHelpHEC"],
