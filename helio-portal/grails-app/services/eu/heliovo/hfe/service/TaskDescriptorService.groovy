@@ -454,7 +454,7 @@ class TaskDescriptorService implements InitializingBean {
             "label" : "Locate planets/intruments by time",
             "description" : "Locate planets/intruments by time",
             "serviceName" : HelioServiceName.ILS,
-            "serviceCapability" : ServiceCapability.SYNC_QUERY_SERVICE,
+            "serviceCapability" : ServiceCapability.LOCAL_QUERY_SERVICE,
             "serviceVariant" : null,
             "from" : "trajectories",
             "resultfilter" : "ilsfilter", // name and id of the gsp page to use as result filter
@@ -470,7 +470,7 @@ class TaskDescriptorService implements InitializingBean {
               "label" : "Find instruments by capability",
               "description" : "Find instruments by capability",
               "serviceName" : HelioServiceName.ICS,
-              "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
+              "serviceCapability" : ServiceCapability.LOCAL_QUERY_SERVICE,
               "serviceVariant" : "ivo://helio-vo.eu/ics/ics_pat",
               "from" : "instrument",
               "resultfilter" : "icsfilter", // name and id of the gsp page to use as result filter
