@@ -54,9 +54,9 @@ class CatalogService {
 
         //lists need to come in as a 1 to 1 relation between date and from, permuteLists makes sure this relation 
 		//is kept by padding lists with the required elements.
-        List<String>[] permuted = DateUtil.permuteLists(startTime,from)
+        List<String>[] permuted = DateUtil.permuteLists(startTimes,from)
         startTime = permuted[0];
-        permuted = DateUtil.permuteLists(endTime,from)
+        permuted = DateUtil.permuteLists(endTimes,from)
         endTime = permuted[0];
         from  = permuted[1];
         
@@ -73,8 +73,8 @@ class CatalogService {
 			taskDescriptor.serviceCapability)
 
         // execute the service
-        catalogService.setStartTime(startTimes)
-        catalogService.setEndTime(endTimes)
+        catalogService.setStartTime(startTime)
+        catalogService.setEndTime(endTime)
         catalogService.setFrom(from)
         //catalogService.whereClauses
         catalogService.setMaxRecords(maxrecords)
@@ -105,6 +105,11 @@ class CatalogService {
 				}
 			}
         }
+		
+		System.out.println("times:");
+		for(String time:catalogService.getStartTime()) {
+			System.out.println(time);
+		}
         
         HelioQueryResult result = catalogService.execute();
         try {
