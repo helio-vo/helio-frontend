@@ -431,6 +431,35 @@ class TaskDescriptorService implements InitializingBean {
                 "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
               ]
           ],
+          
+          /**
+           * Task ies (observation data by instrument and event service
+           * @author junia schoch at fhnw ch
+           */
+		  "ies" :  [
+			  "label" : "Find Observation Data by Instrument/Event",
+			  "description" : "Find Observation Data by Instrument/Event",
+			  "serviceName" : HelioServiceName.HEC, //todo: change ServiceName
+			  "serviceCapability" : ServiceCapability.LOCAL_QUERY_SERVICE,
+			  "serviceVariant" : null,
+			  "timeout" : 120,
+			  "inputParams" : [
+				"iesInstruments" :  [
+                    "instruments" : [label : "Instruments", description : "Name of the Instrument", type : String[],
+                        defaultValue : [],
+                        valueDomain: instrumentDescriptors]
+                ],
+				"iesEventList" :  [
+					"listNames" : [label : "Event List", description : "Name of the Event List", type : [javaType: String][],
+						defaultValue : [],
+						valueDomain: eventListDescriptors]
+					],
+				"paramSet" : [:]  /* dynamically populated */
+			  ],
+			  "outputParams" : [
+				"voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+			  ]
+		  ],
           "dataaccess" :  [
             "label" : "Data Access Service",
             "description" : "Query for data",

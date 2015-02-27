@@ -142,6 +142,12 @@ $(document).ready(function() {
 				"taskName" : "ils",
 				"taskConstructor" : function(taskName) { return new helio.IlsTask(taskName); }
 			},
+			
+			/* Task ies @author junia schoch at fhnw ch*/
+			"task_ies" : {
+				"taskName" : "ies",
+				"taskConstructor" : function(taskName) { return new helio.IesTask(taskName); }
+			},
 			"task_propagationmodel" : {
 				"menuitems" : {
 					"pm_cme_fw" : { title: "CME Forward PM", 

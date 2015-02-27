@@ -22,9 +22,19 @@
             <g:render template="/inputParams/genericSummary" model="[paramName : 'EventList', title : 'Select an Event List', step:step, paramDroppableName:'']" />
             <g:set var="step" value="${step+1}"/>
           </g:if>
+          <%-- IesEvent list Selection Area, @author junia schoch at fhnw ch --%>
+          <g:if test="${taskDescriptor.inputParams?.iesEventList}">
+            <g:render template="/inputParams/genericSummary" model="[paramName : 'IesEventList', title : 'Select an Event List', step:step, paramDroppableName:'']" />
+            <g:set var="step" value="${step+1}"/>
+          </g:if>
           <%-- Instrument list Selection Area --%>
           <g:if test="${taskDescriptor.inputParams?.instruments}">
             <g:render template="/inputParams/genericSummary" model="[paramName : 'Instrument', title : 'Select an Instrument', step:step, paramDroppableName:'']" />
+            <g:set var="step" value="${step+1}"/>
+          </g:if>
+          <%-- IesInstrument list Selection Area, @author junia schoch at fhnw ch --%>
+          <g:if test="${taskDescriptor.inputParams?.iesInstruments}">
+            <g:render template="/inputParams/genericSummary" model="[paramName : 'IesInstrument', title : 'Select an Instrument', step:step, paramDroppableName:'']" />
             <g:set var="step" value="${step+1}"/>
           </g:if>
           <%-- Param Selection Area --%>

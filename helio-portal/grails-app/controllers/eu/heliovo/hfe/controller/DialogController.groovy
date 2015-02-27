@@ -171,8 +171,35 @@ class DialogController {
         //println taskDescriptor
         render (template: "/dialog/eventListDialog", model: [ eventList : eventList, taskDescriptor : taskDescriptor])
     }
+	
+    /**
+     * Action that loads the iesEventListDialog
+     * @author junia schoch at fhnw ch
+     */
+	def iesEventListDialog = {
+		def taskName = params.taskName
+		def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
+		def initMode = InitMode.valueOf(params.init)
+		
+		def eventList;
+		switch (initMode) {
+			case InitMode.none:
+				eventList = new EventListParam(taskName : taskName);
+				break;
+			case InitMode.last_task:
+			case InitMode.default_mode:
+				Task task = defaultsService.loadTask(taskName)
+				eventList = task.inputParams.eventList
+				if (eventList == null)
+					eventList = new EventListParam(taskName : taskName);
+				break;
+			default: throw new IllegalStateException("Unknown init mode " + initMode + " (params.init=" + params.init +").")
+		}
+		//println taskDescriptor
+		render (template: "/dialog/iesEventListDialog", model: [ eventList : eventList, taskDescriptor : taskDescriptor])
+	}
 
-     def instrumentDialog = {
+	def instrumentDialog = {
         def taskName = params.taskName
         def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         def initMode = InitMode.valueOf(params.init)
@@ -194,6 +221,33 @@ class DialogController {
         //println taskDescriptor.inputParams.instruments.instruments.valueDomain
         render (template: "/dialog/instrumentDialog", model: [ instrument : instrumentParam, taskDescriptor : taskDescriptor])
     }
+	
+    /**
+     * Action that loads the iesInstrumentDialog
+     * @author junia schoch at fhnw ch
+     */
+	def iesInstrumentDialog = {
+		def taskName = params.taskName
+		def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
+		def initMode = InitMode.valueOf(params.init)
+		
+		def instrumentParam;
+		switch (initMode) {
+		case InitMode.none:
+			instrumentParam = new InstrumentParam(taskName : taskName);
+			break;
+		case InitMode.last_task:
+		case InitMode.default_mode:
+			Task task = defaultsService.loadTask(taskName)
+			instrumentParam = task.inputParams.instruments
+			if (instrumentParam == null)
+				instrumentParam = new InstrumentParam(taskName : taskName);
+			break;
+		default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
+		}
+		//println taskDescriptor.inputParams.instruments.instruments.valueDomain
+		render (template: "/dialog/iesInstrumentDialog", model: [ instrument : instrumentParam, taskDescriptor : taskDescriptor])
+	}
 
     def extractParamDialog = {
         def tableId = params.tableId

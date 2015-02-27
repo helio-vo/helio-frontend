@@ -509,10 +509,92 @@ helio.EventListSummary.prototype.__queryOptionsDialog = function(listName) {
 };
 
 /**
+ * IesEventListSummary class
+ * @param {helio.EventListTask} task the task this summary is associated with.  
+ * @param {String} taskName the name of the task to send.  
+ * @author junia schoch at fhnw ch
+ */
+helio.IesEventListSummary = function(task, taskName, data) {
+    helio.AbstractSummary.apply(this, [task, taskName, 'IesEventList', data]);
+    this.data = data;
+};
+
+//create EventListSummry as subclass of AbstractSummry
+helio.IesEventListSummary.prototype = new helio.AbstractSummary;
+helio.IesEventListSummary.prototype.constructor = helio.IesEventListSummary;
+
+/**
+ * Render the summary box.
+ * @param eventList the eventlist to render.
+ * @returns the summary box.
+ */
+helio.IesEventListSummary.prototype._renderSummary = function(eventList) {
+    var THIS = this;
+    this.data = eventList;
+    if (eventList) { // (re-)populate the summary section
+        var table =$("<table></table>");
+        if (eventList.name) {
+            table.append('<tr><td><b>Name</b> ' + eventList.name + '</td></tr>');
+        }
+
+        for (var listName in eventList.entries) {
+            var listEntry = eventList.getEventListEntry(listName);
+            var listLabel = listEntry.getLabel();
+            var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
+            
+            var tr = $("<tr></tr>");
+            table.append(tr);
+            var td = $('<td></td>');
+            tr.append(td);
+            td.append('<b>' +listLabel + '</b>');
+            
+            // add the query options button (aka whereClause)
+            var iconStatus = whereClause && whereClause.entries.length > 0  ? "active" : "inactive";
+            var options = $('<span style="margin: 0 1px 0 3px; top: 3px; position:relative;">' +
+            		'<span class="list-options list-options-' + iconStatus + 
+            		'" title="click to select query options"></span></span>');
+            options.click(function(listName) {
+                return function() {
+                    THIS.__queryOptionsDialog.call(THIS, listName);
+                    return false;
+                };
+            }(listName));
+            td.append(options);
+
+            // now render the current content of the where clause
+            if (whereClause) {
+                var optionsText = '';
+                for (var i = 0; i < whereClause.getEntries().length; i++) {
+                    if (i != 0) {
+                        optionsText += ', ';
+                    }
+                    optionsText += whereClause.getEntries()[i].toString();
+                }
+                td.append(optionsText);
+            }
+        }        
+        return table;
+    } else {
+        return null;
+    }
+};
+
+helio.IesEventListSummary.prototype.__queryOptionsDialog = function(listName) {
+    var THIS = this;
+    var listEntry = this.data.getEventListEntry(listName);
+    var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
+    var paramSetDialog = new helio.ParamSetDialog(this.task, this.taskName, whereClause, listName);
+    var okCallback = function() {
+        THIS.__render.call(THIS, THIS.data);
+    };
+    paramSetDialog.show(okCallback);
+};
+
+/**
  * InstrumentSummary class
  * @param {helio.InstrumentTask} task the task this summary is associated with.  
  * @param {String} taskName the name of the task to send.  
- * 
+ *
  */
 helio.InstrumentSummary = function(task, taskName) {
     helio.AbstractSummary.apply(this, [task, taskName, 'Instrument']);
@@ -523,7 +605,7 @@ helio.InstrumentSummary.prototype = new helio.AbstractSummary;
 helio.InstrumentSummary.prototype.constructor = helio.InstrumentSummary;
 
 /**
- * Remder the summary box.
+ * Render the summary box.
  * @param instrument the instrument to render.
  * @returns the summary box.
  */
@@ -544,7 +626,41 @@ helio.InstrumentSummary.prototype._renderSummary = function(instrument) {
     }
 };
 
-// ---------------------------------------------------------------------------------- //
+/**
+ * IesInstrumentSummary class
+ * @param {helio.InstrumentTask} task the task this summary is associated with.  
+ * @param {String} taskName the name of the task to send.  
+ * @author junia schoch at fhnw
+ */
+helio.IesInstrumentSummary = function(task, taskName) {
+    helio.AbstractSummary.apply(this, [task, taskName, 'IesInstrument']);
+};
+
+//create InstrumentSummary as subclass of AbstractSummry
+helio.IesInstrumentSummary.prototype = new helio.AbstractSummary;
+helio.IesInstrumentSummary.prototype.constructor = helio.IesInstrumentSummary;
+
+/**
+ * Render the summary box.
+ * @param instrument the instrument to render.
+ * @returns the summary box.
+ */
+helio.IesInstrumentSummary.prototype._renderSummary = function(instrument) {
+    this.data = instrument;
+    if (instrument) { // (re-)populate the summary section
+        var table =$("<table></table>");
+        if (instrument.name) {
+            table.append('<tr><td><b>Name</b> ' + instrument.name + '</td></tr>');
+        }
+        for (var instrumentName in instrument.instruments) {
+            var entry = instrument.getInstrumentEntry(instrumentName);
+            table.append('<tr><td><b>' + entry.getLabel() + '</b></td></tr>');
+        }
+        return table;
+    } else {
+        return null;
+    }
+};
 
 /**
  * Base class for dialogs.
@@ -1455,6 +1571,358 @@ helio.EventListDialog.prototype.__queryOptionsDialog = function(listName) {
     paramSetDialog.show(okCallback);
 };
 
+/**
+ * IesEventListDialog class
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
+ * @param {helio.EventList} eventList the eventlist assigend with this dialog. 
+ * When the dialog gets closed it is filled with the current values.
+ * Note: The object is not touched while the dialog entries are modified. 
+   @author junia schoch at fhnw ch 
+ * 
+ */
+helio.IesEventListDialog = function(task, taskName, /*helio.EventList*/ eventList) {
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, eventList]);
+    // create an object to keep the entered data. if ok is pressed and validation passed it will replace this.data.
+    this.newdata = eventList ? $.extend(true, {}, eventList) : new helio.EventList(taskName);
+    this._idCol = -1;     // number of the column that contains the id (will be set in init()).
+    this._labelCol = -1;  // number of the column that contains the label (TODO: remove as not used anymore).
+};
+
+//create EventListDialog as subclass of AbstractDialog
+helio.IesEventListDialog.prototype = new helio.AbstractDialog;
+helio.IesEventListDialog.prototype.constructor = helio.IesEventListDialog;
+
+/**
+ * Load the dialog URL.
+ */
+helio.IesEventListDialog.prototype._dialogUrl = function() {
+    var init = "last_task"; // should the template be initialized on the server side.
+    return './dialog/iesEventListDialog?init=' + init +'&taskName=' + this.taskName;
+};
+
+/**
+ * init the dialog
+ */
+helio.IesEventListDialog.prototype._init = function() {
+    var THIS = this;
+    
+    // 1. init table
+    var table = $("#selectTableEventList").dataTable( {
+        "bSort": true,
+        "bInfo": true,
+        "sScrollY": "220px",
+        "bPaginate": false,
+        "bJQueryUI": true,
+        "sScrollX": "500px",
+        "sScrollXInner": "99%",
+        "sDom": '<"H">t<"F">',
+        "aoColumnDefs": [
+            { "asSorting": [ ], "aTargets": [ 'type', 'status', 'infoUrl' ] },  // disable sorting for Type and Status
+            { 
+                "fnRender" : function(o, val) {
+                    var img = '<img width="16px" height="16px" class="hecInfo" src="./images/icons/info.png" alt="' + val + '"/>';
+                    return img;
+                }, "aTargets" : [ 'infoUrl'] 
+            }
+        ]
+    });
+
+    var columnSettings = {
+        'Description' : { visible: true, sortable: true}, 
+        'From' : {visible: true, sortable: true}, 
+        'To' : {visible: true, sortable: true}, 
+        'Type' : {visible:true, sortable: false}, 
+        'Status' : {visible:true, sortable: false},
+        'Info' : {visible:true, sortable: false}
+    };
+    
+    var idColName = 'Name'; // name of the column that contains the identifier for this table
+    var labelColName = 'Description'; // name of the column that contains the identifier for this table
+    
+    var cols = table.fnSettings().aoColumns;
+    
+    for (var col in cols) {
+        var colSetting = columnSettings[cols[col].sTitle];
+        var visible = colSetting && colSetting.visible;
+        table.fnSetColumnVis( col, visible );
+        if(cols[col].sTitle == idColName) {
+            this._idCol = col;
+        }
+        if(cols[col].sTitle == labelColName) {
+            this._labelCol = col;
+        }
+    }
+        
+    if (this._idCol < 0) throw "HELIO Internal Error: unable to find id col";
+    if (this._labelCol < 0) throw "HELIO Internal Error: unable to find label col";
+
+    // 2. enable filters
+    $(".checkFilter").change(function(){
+    	// remove "never appearing filter text"
+    	table.fnFilter("", 1, true);
+        // uncheck "Show all" checkbox
+        $("#checkAll").removeAttr("checked");
+        
+        table.fnFilter("", 15, true);
+        
+        var checkboxColumn = $(this).attr("column");
+        var filter_expression = "";
+        
+        var eventCounter = 0;
+        var locationCounter = 0;
+        var observationCounter = 0;
+        
+        // clear filterText <td>
+        $("#filterText").html("");
+        $("#filterText").hide();
+
+        // filters the table and displays filter text
+        $("input:checked").each(function(){
+            // ignore filterText when obs. type is both otherwise display default filter text
+            if (eventCounter == 0 && locationCounter == 0 && observationCounter == 0){
+                if ($(this).attr("title") == "Both") {
+                    $("#filterText").html("All flare lists are shown.");
+                }
+                else {
+                    $("#filterText").html($("#filterText").html() + "Show flare lists WHERE ");
+                }
+            }
+            
+            // display all filter criteria connected with AND's
+            if($(this).hasClass("event")) {
+                if (eventCounter == 0) {
+                    $("#filterText").html($("#filterText").html() + "Event is " + $(this).attr("name"));
+                }
+                else {
+                    $("#filterText").html($("#filterText").html() + " AND " + $(this).attr("name"));
+                }
+                eventCounter++;
+            } else if ($(this).hasClass("location")) {
+                if (locationCounter == 0) {
+                    // only display first AND if no event filters are set
+                    if (eventCounter == 0) {
+                        $("#filterText").html($("#filterText").html() + "Location is " + $(this).attr("name"));
+                    } else {
+                        $("#filterText").html($("#filterText").html() + " <b> AND</b> Location is " + $(this).attr("name"));
+                    }
+                } else {
+                    $("#filterText").html($("#filterText").html() + " AND " + $(this).attr("title"));
+                }
+                locationCounter++;
+            } else if ($(this).hasClass("observation")) {
+                if ($(this).attr("title") != "Both") {
+                    if (observationCounter == 0) {
+                        // only display first AND if no event filters and no location filters are set
+                        if (eventCounter == 0 && locationCounter == 0) {
+                            $("#filterText").html($("#filterText").html() + "Obs. Type is " + $(this).attr("title"));
+                        } else {
+                            $("#filterText").html($("#filterText").html() + " <b> AND</b> Obs. Type is " + $(this).attr("title"));
+                        }
+                    } else {
+                        $("#filterText").html($("#filterText").html() + " <b>AND " + $(this).attr("title"));
+                    }
+                }
+                observationCounter++;
+            }
+            
+            // create filter expression
+            if($(this).attr("column") == checkboxColumn) {
+                filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+            }
+        });
+        
+        // creates the new filtered table
+        table.fnFilter(filter_expression, checkboxColumn, true);
+        $("#filterText").delay(500).fadeIn();
+    });
+    
+    // the check all option
+    $("#checkAll").change(function(){
+        $("#filterText").hide();
+        if ($(this).attr("checked")) {
+        	// remove "never appearing filter text"
+            table.fnFilter("", 1, true);
+            $(".checkFilter").each(function(){
+                // uncheck all filter checkboxes
+                $(this).removeAttr("checked");
+                // remove all filters from dataTable
+                table.fnFilter("", $(this).attr("column"), true);
+            });
+            
+            $("#obsBoth").attr("checked", "checked");
+            $("#filterText").html("All flare lists are shown.");
+        }
+        else {
+            table.fnFilter("never appearing filter text", 1, true);
+            $("#filterText").html("No flare lists are shown.");
+        }
+        $("#filterText").delay(500).fadeIn();
+    });
+    
+    // handle the radio buttons
+    $("input:radio").change(function(){
+        $("#filterText").hide();
+        var checkboxColumn = $(this).attr("column");
+        var filter_expression = "";
+        
+        $("input:checked").each(function(){
+            if($(this).attr("column") == checkboxColumn)
+                filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+        });
+
+        table.fnFilter(filter_expression, checkboxColumn, true);
+        $("#filterText").delay(500).fadeIn();
+    });
+    
+    // the textbox filters
+    $("#input_filter").keyup(function(){
+        table.fnFilter($(this).val());
+    });
+
+    // 3. render the content of the summary box
+    this._renderSummaryBox(table);
+    
+     // 4. the row selection listener
+    $('#selectTableEventList tr').click( function() {
+        var id = table.fnGetData(this, THIS._idCol);    // id of the selected event list
+        
+        if ( $(this).hasClass('row_selected') ){
+            $(this).removeClass('row_selected');
+            THIS.newdata.removeEntry.call(THIS.newdata, id);
+            THIS._renderSummaryBox.call(THIS, table);
+        } else {
+            $(this).addClass('row_selected');
+            THIS.newdata.addEntry.call(THIS.newdata, id);
+            THIS._renderSummaryBox.call(THIS, table);
+        };
+    });
+    
+    // 4a. Add hec info handler
+    $('.hecInfo').click(function() {
+        var url = $(this).attr('alt');
+        var hecInfoWindow = window.open(url, "hecInfo", "width=600,height=800,left=50,top=50,toolbar=0,location=0,menubar=0");
+        hecInfoWindow.focus();
+        return false;
+    });
+    
+    // 5. init row selection from previous values. 
+    this._updateSelection(table);
+
+    // 6. hack to format the headers of the datatables prooperly. not sure why this does not work initially.
+    setTimeout(function() {
+        table.fnAdjustColumnSizing();
+    }, 1);
+};
+
+/**
+ * The action to be executed when the Ok button is pressed.
+ */
+helio.IesEventListDialog.prototype._updateDataModel = function() {
+    if (this.newdata.length() == 0) {
+        alert("Please select at least one event list");
+        return false;
+    }
+    this.data = this.newdata;
+    this.data.name = $("#nameEventList").val();
+    return true;
+};
+
+/**
+ * A configuration object for the EventList dialog
+ */
+helio.IesEventListDialog.prototype.__dialogConfig = function() {
+    return {
+        width : 800,
+        title : "Select Event List",
+        dialogTitle : "Event List Selection",
+        helpText : "Use the filters to select an event list you are interested in and click Ok."
+    };
+};
+
+/**
+ * update the current table selection based on the data model.
+ * @param table the table to init
+ */
+helio.IesEventListDialog.prototype._updateSelection = function(table) {
+    var THIS = this;
+    var trNodes = table.fnGetNodes();
+    $.each(trNodes, function(index, tr) {
+        var listEntry = THIS.newdata.getEventListEntry(table.fnGetData(tr, THIS._idCol));
+        if (listEntry) {
+            $(tr).addClass('row_selected');                
+        } else {
+            $(tr).removeClass('row_selected');                
+        }
+    });
+    $("#nameEventList").val(this.newdata.name);
+    
+    this._renderSummaryBox(table);
+};
+
+/**
+ * (Re-)render the content of the summary box within the dialog
+ */
+helio.IesEventListDialog.prototype._renderSummaryBox = function(table) {
+    var THIS = this;
+    $("#summaryEventList").empty();
+    var ul = $("<ul></ul>");
+    $("#summaryEventList").append(ul);
+    
+    for (var listName in this.newdata.entries) {
+        var listEntry = this.newdata.getEventListEntry(listName);
+        var listLabel = listEntry.getLabel();
+        var li = $('<li id="sel_' + listName + '"></li>');
+        ul.append(li);
+        
+        var removeButton =
+            $('<div style="float:left; height: 16px; width: 16px; margin-right:3px" class="removeList ui-state-default ui-corner-all">' +
+              '<span class="ui-icon ui-icon-close"></span>' +
+            '</div>');
+        
+        removeButton.click((function(listName) {
+            return function() {
+                THIS.newdata.removeEntry.call(THIS.newdata, listName);
+                THIS._updateSelection.call(THIS, table); // notify the data table about the change.
+            };
+        })(listName));
+        li.append(removeButton);
+        
+        // add the query options button (aka whereClause)
+        var iconStatus = listEntry.whereClause && listEntry.whereClause.entries.length > 0 ? "active" : "inactive";
+        var options = 
+        	$('<div style="float:left; height:16px; width:16px; margin-right:3px;"  class="ui-state-default ui-corner-all">' +
+        		'<span class="list-options list-options-' + iconStatus + '" title="click to select query options"></span>' + 
+        	'</span>');
+        
+        options.click(function(listName) {
+            return function() {
+                THIS.__queryOptionsDialog.call(THIS, listName);
+                return false;
+            };
+        }(listName));
+        li.append(options);
+        
+        li.append('<div class="dialog_selection_area_text" >' + listLabel + '<div>');
+    }
+};
+
+/**
+ * Show the param set dialog for a given eventlist.
+ * @param listName the name of the list.
+ */
+helio.IesEventListDialog.prototype.__queryOptionsDialog = function(listName) {
+    var THIS = this;
+    var listEntry = this.newdata.getEventListEntry(listName);
+    var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
+    var paramSetDialog = new helio.ParamSetDialog(this.task, this.taskName, whereClause, listName);
+    var okCallback = function() {
+        THIS._renderSummaryBox.call(THIS, THIS.newdata);
+    };
+    paramSetDialog.show(okCallback);
+};
+
+//------------
 
 /**
  * InstrumentDialog class
@@ -1604,6 +2072,183 @@ helio.InstrumentDialog.prototype._updateSelection = function(table) {
  * (Re-)render the content of the summary box within the dialog
  */
 helio.InstrumentDialog.prototype._renderSummaryBox = function(table) {
+    var THIS = this;
+    $("#summaryInstrument").empty();
+    var ul = $("<ul></ul>");
+    $("#summaryInstrument").append(ul);
+
+    for (var instrumentName in this.newdata.instruments) {
+        var entry = this.newdata.getInstrumentEntry(instrumentName);
+        var li = $('<li id="sel_' + instrumentName + '"></li>');
+        ul.append(li);
+        
+        var removeButton =
+            $('<div style="float:left; height: 16px; width: 16px; margin-right:3px" class="removeInst ui-state-default ui-corner-all">' +
+              '<span class="ui-icon ui-icon-close"></span>' +
+            '</div>');
+        
+        removeButton.click((function(instrument) {
+            return function() {
+                THIS.newdata.removeInstrument.call(THIS.newdata, instrument);
+                THIS._updateSelection.call(THIS, table); // notify the data table about the change.
+            };
+        })(instrumentName));
+        
+        li.append(removeButton);
+        li.append('<div class="dialog_selection_area_text' + 
+                (entry.isInPat() ? '' : ' item_missing') + '">' +
+                entry.getLabel() + '<div>');
+    }
+};
+
+/**
+ * IesInstrumentDialog class
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
+ * @param {helio.Instrument} instrument the instrument used to populate the dialog. 
+ * When the dialog gets closed it is filled with the current values.
+ * Note: The object is not touched while the dialog entries are modified.  
+ * @author junia schoch at fhnw ch
+ */
+helio.IesInstrumentDialog = function(task, taskName, /*helio.ParamSet*/ instrument) {
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, instrument]);
+    // create an object to keep the entered data. if ok is pressed and validation passed it will replace this.data.
+    this.newdata = instrument ? $.extend(true, {}, instrument) : new helio.Instrument(taskName);
+    this._idCol = -1;     // number of the column that contains the id (will be set in init()).
+    this._labelCol = -1;  // number of the column that contains the label.
+};
+
+//create InstrumentDialog as subclass of AbstractDialog
+helio.IesInstrumentDialog.prototype = new helio.AbstractDialog;
+helio.IesInstrumentDialog.prototype.constructor = helio.IesInstrumentDialog;
+
+/**
+ * Load the dialog URL
+ */
+helio.IesInstrumentDialog.prototype._dialogUrl = function() {
+    var init = "last_task"; // should the template be initialized on the server side.
+    return './dialog/iesInstrumentDialog?init=' + init +'&taskName=' + this.taskName;
+};
+
+/**
+ * init the dialog
+ */
+helio.IesInstrumentDialog.prototype._init = function() {
+    var THIS = this;
+        
+    // 1. init table
+    var table = $("#selectInstrument").dataTable( {
+        "bSort": false,
+        "bInfo": true,
+        "sScrollY": "230px",
+        "bPaginate": false,
+        "bJQueryUI": true,
+        "sScrollX": "300px",
+        "sScrollXInner": "100%",
+        "sDom": '<"H">t<"F">'
+    });
+    var visibleCols = ['Observatory', 'Instrument', 'Label'];
+    var idColName = 'Internal Name'; // name of the column that contains the identifier for this table
+    var labelColName = 'Label'; // name of the column that contains the identifier for this table
+    
+    var cols = table.fnSettings().aoColumns;
+    for (var col in cols) {
+        var flag = $.inArray(cols[col].sTitle, visibleCols) >= 0;
+        table.fnSetColumnVis( col, flag );
+        if(cols[col].sTitle == idColName) {
+            this._idCol = col;
+        }
+        if(cols[col].sTitle == labelColName) {
+            this._labelCol = col;
+        }
+    }
+    
+    if (this._idCol < 0) throw "Internal Error: unable to find id col";
+    if (this._labelCol < 0) throw "Internal Error: unable to find label col";
+    
+    // 2. enable filters
+    // the textbox filters
+    $("#input_filter").keyup(function(){
+        table.fnFilter($(this).val());
+    });
+
+    // 3. render the content of the summary box
+    this._renderSummaryBox(table);
+    
+     // 4. the row selection listener
+    $('#selectInstrument tr').click( function() {
+        var id = table.fnGetData(this, THIS._idCol);    // id of the selected instrument list
+        
+        if ( $(this).hasClass('row_selected') ){
+            $(this).removeClass('row_selected');
+            THIS.newdata.removeInstrument.call(THIS.newdata, id);
+            THIS._renderSummaryBox.call(THIS, table);
+        } else {
+            $(this).addClass('row_selected');
+            THIS.newdata.setInstrument.call(THIS.newdata, id);
+            THIS._renderSummaryBox.call(THIS, table);
+        };
+    });
+    
+    // 5. init row selection from previous values. 
+    this._updateSelection(table);
+
+    // hack to format the headers of the datatables prooperly. not sure why this does not work initially.
+    setTimeout(function() {
+        table.fnFilter('');
+    }, 10);
+};
+
+
+/**
+ * The action to be executed when the Ok button is pressed.
+ */
+helio.IesInstrumentDialog.prototype._updateDataModel = function() {
+	if (this.newdata.length() == 0) {
+        alert("Please select at least one instrument");
+        return false;
+    }
+    this.data = this.newdata;
+    this.data.name = $("#nameInstrument").val();
+    return true;
+};
+
+/**
+ * A configuration object for the Instrument dialog
+ */
+helio.IesInstrumentDialog.prototype.__dialogConfig = function() {
+    return {
+        width : 800,
+        title : "Select Instrument",
+        dialogTitle : "Instrument Selection",
+        helpText : "Select an instrument and click Ok."
+    };
+};
+
+/**
+ * update the current table selection based on the data model.
+ * @param table the table to init
+ */
+helio.IesInstrumentDialog.prototype._updateSelection = function(table) {
+    var THIS = this;
+    var trNodes = table.fnGetNodes();
+    $.each(trNodes, function(index, tr) {
+        var entry = THIS.newdata.getInstrumentEntry(table.fnGetData(tr, THIS._idCol));
+        if (entry) {
+            $(tr).addClass('row_selected');                            
+        } else {
+            $(tr).removeClass('row_selected');                
+        }
+    });
+    $("#nameInstrument").val(this.newdata.name);
+    
+    this._renderSummaryBox(table);
+};
+
+/**
+ * (Re-)render the content of the summary box within the dialog
+ */
+helio.IesInstrumentDialog.prototype._renderSummaryBox = function(table) {
     var THIS = this;
     $("#summaryInstrument").empty();
     var ul = $("<ul></ul>");

@@ -296,6 +296,22 @@ helio.IlsTask.prototype = new helio.AbstractTask;
 helio.IlsTask.prototype.constructor = helio.IlsTask;
 
 /**
+ * Create an IesTask
+ * @param {String} taskName name of the actual implementation of the task.  
+ * @author junia schoch at fhnw ch
+ */
+helio.IesTask = function(taskName) {
+    helio.AbstractTask.call(this, taskName, "./catalog/ies");
+    this.summaries["iesInstruments"] = new helio.IesInstrumentSummary(this, this.taskName);
+    this.summaries["iesEventList"] = new helio.IesEventListSummary(this, this.taskName);
+    
+};
+
+//create IlsTask as subclass of AbstractTask
+helio.IesTask.prototype = new helio.AbstractTask;
+helio.IesTask.prototype.constructor = helio.IesTask;
+
+/**
  * Create a DES Task
  * @param {String} taskName name of the actual implementation of the task.  
  * 
