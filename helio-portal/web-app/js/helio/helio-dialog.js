@@ -2219,9 +2219,13 @@ helio.IesInstrumentDialog.prototype._updateDataModel = function() {
 helio.IesInstrumentDialog.prototype.__dialogConfig = function() {
     return {
         width : 800,
+        height: 600,
         title : "Select Instrument",
         dialogTitle : "Instrument Selection",
-        helpText : "Select an instrument and click Ok."
+        helpText : "Select an instrument and click Ok.",
+    	open: function(){
+    		$(".accordion").accordion({ autoHeight: true, collapsible:true, active:false });
+  		}
     };
 };
 
