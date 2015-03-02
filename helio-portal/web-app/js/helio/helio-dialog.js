@@ -2241,6 +2241,15 @@ helio.IesInstrumentDialog.prototype._init = function() {
     setTimeout(function() {
         table.fnFilter('');
     }, 10);
+    
+
+    // 6. change layout for inaccessible instruments
+	$("#selectInstrument tr").each(function() {
+		var val = $(this).data("isinpat");
+		if (!val) {
+			$(this).addClass("notAccessibleInstrument");
+		}
+	});
 };
 
 

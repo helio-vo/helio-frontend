@@ -115,7 +115,7 @@ Expected variables:
 					<g:each
 						in="${taskDescriptor.inputParams.iesInstruments.instruments.valueDomain}"
 						status="i" var="rows">
-						<tr id="selectInstrument_row_${i}">
+						<tr id="selectInstrument_row_${i}" data-isinpat="${rows.isInPat}">
 							<td>
 								${rows.observatoryName}
 							</td>
@@ -141,6 +141,7 @@ Expected variables:
 					</g:each>
 				</tbody>
 			</table>
+			<div align="right">Instruments in red cannot be accessed through HELIO</div>
 		</div>
 		<h3>3. Provide a name to add this instrument list to your Data Cart</h3>
 		<div id="dataCart_name" style="margin-top: 20px;">

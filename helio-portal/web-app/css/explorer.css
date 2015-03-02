@@ -856,3 +856,12 @@ details_link {
 	text-align:right;
 	font-style:italic;
 }
+
+/************ iesInstrumentDialog ******************/
+/*
+* Display not accessible instruments in iesInstrumentDialog red
+* @author junia schoch at fhnw ch
+*/
+.notAccessibleInstrument  {
+	color: red;
+}
