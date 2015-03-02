@@ -2145,7 +2145,10 @@ helio.IesInstrumentDialog.prototype._init = function() {
         "bJQueryUI": true,
         "sScrollX": "300px",
         "sScrollXInner": "100%",
-        "sDom": '<"H">t<"F">'
+        "sDom": '<"H">t<"F">',
+        "columnDefs": [
+                       { type: "keywords", targets: 5 }
+                   ]
     });
     var visibleCols = ['Observatory', 'Instrument', 'Label'];
     var idColName = 'Internal Name'; // name of the column that contains the identifier for this table
@@ -2167,10 +2170,51 @@ helio.IesInstrumentDialog.prototype._init = function() {
     if (this._labelCol < 0) throw "Internal Error: unable to find label col";
     
     // 2. enable filters
-    // the textbox filters
+    // a) the textbox filters
     $("#input_filter").keyup(function(){
         table.fnFilter($(this).val());
     });
+    
+    // b) observable entity and keywords filters
+	$("input:checkbox").change(function() {
+		var checkboxColumn = $(this).attr("column");
+    	var filter_expression = "";
+    	var className = $(this).attr("class");
+    	
+    	// uncheck all subelements of photons, particles and fields and remove filters if necessary
+    	// subclasses always end with "Type"
+    	if (className != null && className.substring(0, 9) == "obsEntity" && className.substring(className.length - 4, className.length) != "Type") {
+    		var classNameType = "." + className + "Type";
+    		if($(this).is(':checked')) { 
+	    		$(classNameType).each(function() {
+	    			if($(this).is(':checked')) { 
+	    				table.fnFilter("", $(this).attr("column"), true);
+	    				$(this).prop('checked', false);
+	    			}
+				});
+    		}
+    	}
+    	    	
+    	var checked = new Array();
+    	
+	    // filters the table
+	    $("input:checked").each(function(){
+	    	checked.push($(this).attr("name"));
+		    	
+	        // create filter expression
+        	filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("name") + ")";
+	    });
+    	table.fnFilter(filter_expression, null, true, false, true, true);
+	    // filter text isn't good but at least it displays all set filters so you can see them in all tabs
+	    if (checked.length > 0) {
+	    	$(".filterInstrumentsText").text("Only show lists containing: " + checked.join(", "));
+	    }
+	    else {
+	    	$(".filterInstrumentsText").text("All lists are shown.");
+	    }
+    	
+	});
+  
 
     // 3. render the content of the summary box
     this._renderSummaryBox(table);
@@ -2218,7 +2262,7 @@ helio.IesInstrumentDialog.prototype._updateDataModel = function() {
  */
 helio.IesInstrumentDialog.prototype.__dialogConfig = function() {
     return {
-        width : 800,
+        width : 850,
         height: 600,
         title : "Select Instrument",
         dialogTitle : "Instrument Selection",

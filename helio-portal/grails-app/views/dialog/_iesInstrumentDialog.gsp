@@ -11,7 +11,7 @@ Expected variables:
 		value="${taskDescriptor.inputParams.instruments}" />
 	<h3>1. Filter options</h3>
 	<div class="accordion">
-		<h4>Filter instruments by observable entity</h4>
+		<h4>Filter instruments by Observable Entity</h4>
 		<div id="observableEntity_filter">
 			<table>
 				<tr>
@@ -64,7 +64,7 @@ Expected variables:
 			</table>
 		</div>
 
-		<h4>Filter instruments by keywords</h4>
+		<h4>Filter instruments by Keywords</h4>
 		<div id="keywords_filter">
 			<table>
 				<tr>
@@ -98,6 +98,7 @@ Expected variables:
 	</div>
 	<h3>2. Select Instruments</h3>
 			<div id="instrument_table">
+			<div class="filterInstrumentsText">All lists are shown.</div>
 			<table id="selectInstrument" class="resultTable">
 				<thead>
 					<tr>
@@ -105,6 +106,9 @@ Expected variables:
 						<th>Instrument</th>
 						<th>Label</th>
 						<th>Internal Name</th>
+						<th column="3">Observable Entity 1</th>
+						<th>Observable Entity 2</th>
+						<th>Keywords</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -123,6 +127,15 @@ Expected variables:
 							</td>
 							<td>
 								${rows.value}
+							</td>
+							<td>
+								${rows.instOe1 }
+							</td>
+							<td>
+								${rows.instOe2 }
+							</td>
+							<td>
+								${rows.keywords }
 							</td>
 						</tr>
 					</g:each>
