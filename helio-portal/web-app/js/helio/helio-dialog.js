@@ -517,6 +517,7 @@ helio.EventListSummary.prototype.__queryOptionsDialog = function(listName) {
 helio.IesEventListSummary = function(task, taskName, data) {
     helio.AbstractSummary.apply(this, [task, taskName, 'IesEventList', data]);
     this.data = data;
+    this.droppableName = 'EventList';
 };
 
 //create EventListSummry as subclass of AbstractSummry
@@ -634,6 +635,7 @@ helio.InstrumentSummary.prototype._renderSummary = function(instrument) {
  */
 helio.IesInstrumentSummary = function(task, taskName) {
     helio.AbstractSummary.apply(this, [task, taskName, 'IesInstrument']);
+    this.droppableName = 'Instrument';
 };
 
 //create InstrumentSummary as subclass of AbstractSummry
@@ -2242,7 +2244,6 @@ helio.IesInstrumentDialog.prototype._init = function() {
         table.fnFilter('');
     }, 10);
     
-
     // 6. change layout for inaccessible instruments
 	$("#selectInstrument tr").each(function() {
 		var val = $(this).data("isinpat");
