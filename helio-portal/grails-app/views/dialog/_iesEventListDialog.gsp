@@ -38,6 +38,22 @@ Expected variables:
             <td><input class="checkFilter event" name="Solar Wind" title="Solar Wind" column="9" type="checkbox" value="true"/> Solar Wind </td>
             <td><input class="checkFilter event" name="Particle" title="Particle" column="8" type="checkbox" value="true"/> Particle</td>
           </tr>
+          <tr>
+            <td></td>
+            <td>Location:</td>
+            <td><input class="checkFilter location" name="Solar" title="Solar" name="solar" column="12" type="checkbox" value="true"/> Solar</td>
+            <td><input class="checkFilter location" name="IPS" title="Interplanetary Space" column="13" type="checkbox" value="true"/> IPS</td>
+            <td><input class="checkFilter location" name="Geo" title="Geo" column="14" type="checkbox" value="true"/> Geo</td>
+            <td><input class="checkFilter location" name="Planet "title="Planet" column="15" type="checkbox" value="true"/> Planet</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Obs. type:</td>
+            <td><input class="checkFilter observation" title="In situ" name="obsType" column="11" type="radio" value="I"/> In situ</td>
+            <td><input class="checkFilter observation" title="Remote" name="obsType" column="11" type="radio" value="r"/> Remote</td>
+            <td><input class="checkFilter observation" title="Both" name="obsType" id="obsBoth" checked="checked" column="11" type="radio" value="I|r"/> Both</td>
+            <td></td>
+          </tr>
         </table>
       </td>
     </tr>
