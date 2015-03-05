@@ -27,11 +27,6 @@ Expected variables:
           <col width="100"/>
           <tr>
             <td></td>
-            <td colspan="2"><input id="checkAll" checked="checked" name="everything" type="checkbox"/> Show all</td>
-            <td colspan="3"><%--input id="checkTimeRange" checked="checked" name="timeRange" type="checkbox"/> Show instruments active between <span name="startTime"></span> and <span name="endTime"></span> --%></td>
-          </tr>
-          <tr>
-            <td></td>
             <td>Event type:</td>
             <td><input class="checkFilter event" name="CME" title="Coronal Mass Ejection" column="8" type="checkbox" value="true"/> CME</td>
             <td><input class="checkFilter event" name="Flare" title="Flare" title="Flare" column="7" type="checkbox" value="true"/> Flare</td>
