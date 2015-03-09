@@ -19,6 +19,8 @@ import eu.heliovo.clientapi.query.impl.IesQueryServiceImpl
 import eu.heliovo.clientapi.workerservice.HelioWorkerServiceHandler
 import eu.heliovo.hfe.model.result.RemoteVOTableResult
 import eu.heliovo.hfe.model.task.Task
+import eu.heliovo.registryclient.HelioServiceName;
+import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.shared.util.DateUtil
 
 class CatalogService {
@@ -165,30 +167,27 @@ class CatalogService {
 		int startindex = 0;
 		
 		def taskDescriptor = task.findTaskDescriptor()
-		def from = getFrom(task)
-
-		log.info("iesQueryService  ::" + task.taskName + ", " + from+", " + where);
 
 		// create the models for the template
 		def model = [:]
 		model.votableResults = []
 		model.userLogs = []
 
-		IesQueryServiceImpl iesService = helioClient.getServiceInstance(
+		IesQueryServiceImpl iesService = (IesQueryServiceImpl) helioClient.getServiceInstance(
 			taskDescriptor.serviceName,
 			taskDescriptor.serviceVariant,
 			taskDescriptor.serviceCapability)
 
 		// params for query
-		List<String> startTime = Collections.singletonList("1997-01-01T00:00:00");
+		List<String> startTime = Collections.singletonList("2002-02-14T00:00:00"); //Todo: replace date with 1997-01-01T00:00:00
 		Calendar now = Calendar.getInstance();
-		List<String> endTime = Collections.singletonList(DateUtil.toIsoDateString(now.getTime()));
+		List<String> endTime = Collections.singletonList("2002-02-15T00:00:00"); //DateUtil.toIsoDateString(now.getTime()));
 		List<String> fromIcs = Collections.singletonList("instrument_pat");
 		List<String> fromHec = getFromEventList(task)
 		List<String> instruments = getFromInstruments(task)
 		
 		// handle the where clauses for event list queries
-		if (taskDescriptor.inputParams.eventList) {
+		if (taskDescriptor.inputParams.iesEventList) {
 			task.inputParams.eventList.entries.each {
 				eventListEntry ->
 				// the target whereClause to populate
@@ -245,7 +244,7 @@ class CatalogService {
 		def taskDescriptor = task.findTaskDescriptor()
 		def from;
 		if (taskDescriptor.inputParams.iesEventList) {
-			from = task.inputParams.iesEventList.entries.collect { it.listName }
+			from = task.inputParams.eventList.entries.collect { it.listName }
 		} else {
 			throw new RuntimeException("Internal Error: unable to determine parameter 'from' for task " + task)
 		}
@@ -256,7 +255,7 @@ class CatalogService {
 		def taskDescriptor = task.findTaskDescriptor()
 		def from;
 		if (taskDescriptor.inputParams.iesInstruments) {
-			from = task.inputParams.iesInstruments.instruments
+			from = task.inputParams.instruments.instruments
 		} else {
 			throw new RuntimeException("Internal Error: unable to determine parameter 'from' for task " + task)
 		}

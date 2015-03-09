@@ -236,5 +236,61 @@ class CatalogController {
         }
         render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
     }
+	
+	def ies = {
+		// do the data binding (i.e. create task)
+		def jsonBindings = JSON.parse(params.bindings) // parse bindings
+		def taskName = jsonBindings.taskName
+		def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
+		
+		// create a new task
+		def task = new Task(taskName : taskName)
+		
+		// handle eventlist params, if required
+		if (taskDescriptor.inputParams.iesEventList) {
+			println jsonBindings.inputParams.iesEventList
+			def eventList = jsonToGormBindingService.bindEventList(jsonBindings.inputParams.iesEventList, null)
+			task.inputParams.put("eventList", eventList)
+		}
+		
+		if (!task.validate()) {
+			throw new ValidationException ("Unable to create task", task.errors)
+		}
+		
+		// handle instrument params, if required
+		if (taskDescriptor.inputParams.iesInstruments) {
+			def instrumentParam = jsonToGormBindingService.bindInstrument(jsonBindings.inputParams.iesInstruments, null)
+			task.inputParams.put("instruments", instrumentParam)
+		}
+		
+		if (!task.validate()) {
+			throw new ValidationException ("Unable to create task", task.errors)
+		}
+		task.save(flush:true)
+
+		// execute the query (this adds the tasks to the output params).
+		def model = catalogService.queryIes(task)
+		 
+		def votableModel
+		try {
+			votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
+			
+			// add custom hec action
+			votableModel.tables.each { table ->
+				table.rowactions += 'examine_event'
+			}
+			
+		} catch (Exception e) {
+			model.status = "Error while processing result votable (see logs for more information)"
+			model.userLogs.add(new LogRecord(Level.WARNING, e.getClass + ": " + e.getMessage()))
+			votableModel = null
+		} finally {
+			if (model.status) {
+				response.setHeader("status", model.status)
+			}
+		}
+		render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
+   
+	}
 
 }
