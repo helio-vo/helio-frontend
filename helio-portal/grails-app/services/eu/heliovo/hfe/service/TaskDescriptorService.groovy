@@ -439,7 +439,7 @@ class TaskDescriptorService implements InitializingBean {
 		  "ies" :  [
 			  "label" : "Find Observation Data by event/instrument",
 			  "description" : "Find Observation Data by event/instrument",
-			  "serviceName" : HelioServiceName.HEC, //todo: change ServiceName
+			  "serviceName" : HelioServiceName.IES,
 			  "serviceCapability" : ServiceCapability.LOCAL_QUERY_SERVICE,
 			  "serviceVariant" : null,
 			  "timeout" : 120,
