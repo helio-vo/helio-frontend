@@ -5,11 +5,11 @@
     </li>
     <li>
     	<a>Search</a>
-    	<ul>
+    	<ul style="width:25em;">
     		<li><a id="task_eventlist">Events</a></li>
     		<li class="disabled"><a id="task_feature">Features</a></li>
     		<li><a id="task_dataaccess">Observation Data</a></li>
-    		<!-- <li><a id="task_ies">Observation Data by hec/ics</a></li>--><!-- new ies task, @author junia schoch at fhnw ch -->
+    		<!--  <li><a id="task_ies">Observation Data by event/instrument</a></li>--><!-- new ies task, @author junia schoch at fhnw ch -->
     		<li class="separated"><a id="task_ics">Instruments by Capability</a></li>
     		<li><a id="task_ils">Instruments/Planets by location/time</a></li>
     	</ul>
