@@ -16,8 +16,8 @@
     <li><a href="?page=tutorial1">Tutorial 1:</a> Search for Events</li>
     <li><a href="?page=tutorial2">Tutorial 2:</a> Use the data cart</li>
     <li><a href="?page=tutorial3">Tutorial 3:</a> Search instruments by capability (TBD)</li>
-    <li><a href="?page=tutorial4">Tutorial 4:</a> Search for Observation Data (TBD)</li>
-    <li><a href="?page=tutorial5">Tutorial 5:</a> Advanced tools (TBD)</li>
+    <li><a href="?page=tutorial4">Tutorial 4:</a> Search for Observation Data</li>
+    <li><a href="?page=tutorial6">Tutorial 6:</a> Advanced tools (TBD)</li>
   </ul>
   
 </body>
