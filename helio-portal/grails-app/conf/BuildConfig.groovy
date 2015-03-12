@@ -56,7 +56,7 @@ grails.project.dependency.resolution = {
 	}
 	
 	plugins {
-		build ":tomcat:8.0.14"
+		build ":tomcat:8.0.15"
 		compile ":spring-security-core:2.0-RC4"
 		compile ":hibernate:3.6.10.17"
 		compile ":jquery:1.11.1"
