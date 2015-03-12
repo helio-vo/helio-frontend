@@ -437,8 +437,8 @@ class TaskDescriptorService implements InitializingBean {
            * @author junia schoch at fhnw ch
            */
 		  "ies" :  [
-			  "label" : "Find Observation Data by event/instrument",
-			  "description" : "Find Observation Data by event/instrument",
+			  "label" : "EXPERIMENTAL: Find Observation Data by event/instrument",
+			  "description" : "EXPERIMENTAL: Find Observation Data by event/instrument",
 			  "serviceName" : HelioServiceName.IES,
 			  "serviceCapability" : ServiceCapability.EXPERIMENTAL_QUERY_SERVICE,
 			  "serviceVariant" : null,

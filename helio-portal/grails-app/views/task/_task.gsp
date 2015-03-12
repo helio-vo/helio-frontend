@@ -6,6 +6,12 @@
     <div class="header queryHeader viewerHeader">
       <h1>Parameters</h1>
     </div>
+    <g:if test="${taskDescriptor.serviceName.toString() == 'IES'}">
+    <div style="padding:15px;">
+    	<p style="color:red;">Due to backend problems the searching time range for the queries is limited from 2002-01-01 until 2002-03-31.</p>
+    </div>
+    </g:if>
+    
     <div class="task_input_params task_body">
       <table width="100%" cellpadding="0" cellspacing="0">
         <col width="*" />
