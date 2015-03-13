@@ -177,9 +177,8 @@ class CatalogService {
 		IesQueryServiceImpl iesService = getIesQueryServiceImpl()
 
 		// params for query
-		List<String> startTime = Collections.singletonList("2002-02-14T00:00:00"); //Todo: replace date with 1997-01-01T00:00:00
-		Calendar now = Calendar.getInstance();
-		List<String> endTime = Collections.singletonList("2002-02-15T00:00:00"); //DateUtil.toIsoDateString(now.getTime()));
+		List<String> startTime = Collections.singletonList("2002-02-01T00:00:00"); //Hack: limit time range due to backend problems in dpas
+		List<String> endTime = Collections.singletonList("2002-02-28T00:00:00"); //Hack: limit time range due to backend problems in dpas
 		List<String> fromIcs = Collections.singletonList("instrument_pat");
 		List<String> fromHec = getFromEventList(task)
 		List<String> instruments = getFromInstruments(task)
@@ -238,6 +237,10 @@ class CatalogService {
 		model
 	}
 
+	/**
+	 * Get inputParams.iesEventList
+	 * @author junia schoch at fhnw ch
+	 */
 	private List getFromEventList(Task task) {
 		def taskDescriptor = task.findTaskDescriptor()
 		def from;
@@ -249,6 +252,10 @@ class CatalogService {
 		return from
 	}
 	
+	/**
+	 * Get inputParams.iesInstruments
+	 * @author junia schoch at fhnw ch
+	 */
 	private List getFromInstruments(Task task) {
 		def taskDescriptor = task.findTaskDescriptor()
 		def from;
@@ -260,6 +267,10 @@ class CatalogService {
 		return from
 	}
 	
+	/**
+	 * Return IesQueryServiceImple either the previously set Instance or a new one trough helioClient
+	 * @author junia schoch at fhnw ch
+	 */
 	public IesQueryServiceImpl getIesQueryServiceImpl() {
 		if(iesQueryServiceImpl == null) {
 			iesQueryServiceImpl = (IesQueryServiceImpl) helioClient.getServiceInstance(
@@ -272,6 +283,10 @@ class CatalogService {
 		return iesQueryServiceImpl
 	}
 
+	/**
+	 * Set iesQueryServiceImpl, currently used only for testing purposes
+	 * @author junia schoch at fhnw ch
+	 */
 	public void setIesQueryServiceImpl(IesQueryServiceImpl iesQueryServiceImpl) {
 		this.iesQueryServiceImpl = iesQueryServiceImpl;
 	}

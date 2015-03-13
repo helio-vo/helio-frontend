@@ -22,6 +22,14 @@
             </tr>
              --%>
              <tr>
+                <td>19-Feb-2015</td>
+                <td>
+                	<ul>
+                		<li>New task "Find Observation Data by event/instrument</li>
+                	</ul>
+                </td>
+            </tr>
+             <tr>
                 <td>27-Nov-2014</td>
                 <td>
                   <ul>

@@ -21,6 +21,11 @@ import eu.heliovo.registryclient.ServiceCapability;
 
 import grails.test.GrailsUnitTestCase
 
+/**
+ * Test for CatalogService
+ * @author junia schoch at fhnw ch
+ *
+ */
 class CatalogServiceTests extends GrailsUnitTestCase {
 	def catalogService
 	def taskDescriptorService

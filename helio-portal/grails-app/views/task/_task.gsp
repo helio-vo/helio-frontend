@@ -6,9 +6,10 @@
     <div class="header queryHeader viewerHeader">
       <h1>Parameters</h1>
     </div>
-    <g:if test="${taskDescriptor.serviceName.toString() == 'IES'}">
+    
+    <g:if test="${taskDescriptor.serviceName.toString() == 'IES'}"><!-- information text for ies @author junia schoch at fhnw ch -->
     <div style="padding:15px;">
-    	<p style="color:red;">Due to backend problems the searching time range for the queries is limited from 2002-01-01 until 2002-03-31.</p>
+    	<p style="color:red;">Due to backend problems the searching time range for the queries is limited from 2002-01-01 until 2002-02-28.</p>
     </div>
     </g:if>
     
