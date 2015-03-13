@@ -237,6 +237,10 @@ class CatalogController {
         render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
     }
 	
+	/**
+	 * Action for the ies query
+	 * @author junia schoch at fhnw ch
+	 */
 	def ies = {
 		// do the data binding (i.e. create task)
 		def jsonBindings = JSON.parse(params.bindings) // parse bindings
