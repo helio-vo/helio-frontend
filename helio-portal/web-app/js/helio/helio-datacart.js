@@ -361,9 +361,23 @@ helio.DataCart.prototype.render = function() {
             }
             
             //Dialog factory
+            var dialogName = dataObject.type + 'Dialog';
+            
+            //Hack for ies cause dataObject.type is different from dialog name
+            //@author junia schoch at fhnw ch
+            if(taskName == "ies") {
+            	if(dataObject.type == "EventList") {
+            		dialogName = "IesEventListDialog";
+            	}
+            	
+            	if(dataObject.type == "Instrument") {
+            		dialogName = "IesInstrumentDialog";
+            	}
+            }
+
             dialogFactory = (function(task, taskName, dataObject) { 
                 return function() {
-                    return new helio[dataObject.type + 'Dialog'](task, taskName, dataObject);
+                    return new helio[dialogName](task, taskName, dataObject);
                 };
             })(task, taskName, dataObject);
            	
