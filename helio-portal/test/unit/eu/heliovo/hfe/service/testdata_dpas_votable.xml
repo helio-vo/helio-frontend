@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VOTABLE version="1.1" xmlns="http://www.ivoa.net/xml/VOTable/v1.1">
+	<RESOURCE>
+		<DESCRIPTION>VSO query response LSSP</DESCRIPTION>
+		<INFO name="QUERY_STATUS"></INFO>
+		<INFO name="EXECUTED_AT"></INFO>
+		<INFO name="HELIO_INSTRUMENT_NAME"></INFO>
+		<INFO name="PROVIDER_INSTRUMENT_NAME"></INFO>
+		<INFO name="PROVIDER_MISSION_NAME"></INFO>
+		<INFO name="TIME_RANGE"></INFO>
+		<INFO name="QUERY_URL">http://helio.ukssdc.ac.uk:80/helio-dpas/HelioQueryServlet?STARTTIME=2002-02-14T00:00:00&amp;ENDTIME=2002-02-15T00:00:00&amp;INSTRUMENT=RHESSI__HESSI_HXR
+		</INFO>
+		<TABLE name="RHESSI__HESSI_HXR" nrows="22">
+			<FIELD datatype="char" name="instrument_name" arraysize="*">
+				<DESCRIPTION>Instrument name</DESCRIPTION>
+			</FIELD>
+			<FIELD datatype="char" name="provider_instrument" arraysize="*">
+				<DESCRIPTION>Provider Instrument name</DESCRIPTION>
+			</FIELD>
+			<FIELD datatype="char" name="url" arraysize="*">
+				<DESCRIPTION>URL for the file</DESCRIPTION>
+			</FIELD>
+			<FIELD datatype="char" name="provider" arraysize="*">
+				<DESCRIPTION>Provider Name</DESCRIPTION>
+			</FIELD>
+			<FIELD datatype="char" name="time_start" arraysize="*">
+				<DESCRIPTION>Start date</DESCRIPTION>
+			</FIELD>
+			<FIELD datatype="char" name="time_end" arraysize="*">
+				<DESCRIPTION>End date</DESCRIPTION>
+			</FIELD>
+			<DATA>
+				<TABLEDATA>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/13/hsi_20020213_235020_005.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 08:13:40</TD>
+						<TD>2002-02-14 09:50:00</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_001100_005.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 00:11:00</TD>
+						<TD>2002-02-14 01:47:20</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_014720_002.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 14:17:00</TD>
+						<TD>2002-02-14 14:39:40</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_032400_003.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 19:02:40</TD>
+						<TD>2002-02-14 19:29:20</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_050020_001.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 19:29:20</TD>
+						<TD>2002-02-14 20:36:20</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_063700_001.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 20:36:20</TD>
+						<TD>2002-02-14 21:06:00</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_081340_002.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 13:03:00</TD>
+						<TD>2002-02-14 14:17:00</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_095000_001.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 03:24:00</TD>
+						<TD>2002-02-14 05:00:20</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_112640_002.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 16:12:40</TD>
+						<TD>2002-02-14 16:16:20</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_130300_003.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 17:52:40</TD>
+						<TD>2002-02-14 19:02:40</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_141700_003.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 22:42:20</TD>
+						<TD>2002-02-15 00:03:40</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_143940_004.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 09:50:00</TD>
+						<TD>2002-02-14 11:26:40</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_161240_004.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 21:06:00</TD>
+						<TD>2002-02-14 22:10:40</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_161620_002.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 06:37:00</TD>
+						<TD>2002-02-14 08:13:40</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_173540_002.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 11:26:40</TD>
+						<TD>2002-02-14 13:03:00</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_175240_003.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 22:10:40</TD>
+						<TD>2002-02-14 22:42:20</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_190240_003.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 05:00:20</TD>
+						<TD>2002-02-14 06:37:00</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_192920_003.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 01:47:20</TD>
+						<TD>2002-02-14 03:24:00</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_203620_003.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-13 23:50:20</TD>
+						<TD>2002-02-14 00:11:00</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_210600_002.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 14:39:40</TD>
+						<TD>2002-02-14 16:12:40</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_221040_002.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 16:16:20</TD>
+						<TD>2002-02-14 17:35:40</TD>
+					</TR>
+					<TR>
+						<TD>RHESSI__HESSI_HXR</TD>
+						<TD>RHESSI</TD>
+						<TD>http://hesperia.gsfc.nasa.gov/hessidata/2002/02/14/hsi_20020214_224220_003.fits
+						</TD>
+						<TD>VSO:LSSP</TD>
+						<TD>2002-02-14 17:35:40</TD>
+						<TD>2002-02-14 17:52:40</TD>
+					</TR>
+				</TABLEDATA>
+			</DATA>
+		</TABLE>
+	</RESOURCE>
+</VOTABLE>

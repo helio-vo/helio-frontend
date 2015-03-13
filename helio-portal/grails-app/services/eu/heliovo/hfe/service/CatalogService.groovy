@@ -26,8 +26,9 @@ import eu.heliovo.shared.util.DateUtil
 class CatalogService {
 
     def helioClient
+	def iesQueryServiceImpl
 
-    static transactional = true
+	static transactional = true
 
     /**
      * Execute the processing service and get back the results.
@@ -173,10 +174,7 @@ class CatalogService {
 		model.votableResults = []
 		model.userLogs = []
 
-		IesQueryServiceImpl iesService = (IesQueryServiceImpl) helioClient.getServiceInstance(
-			taskDescriptor.serviceName,
-			taskDescriptor.serviceVariant,
-			taskDescriptor.serviceCapability)
+		IesQueryServiceImpl iesService = getIesQueryServiceImpl()
 
 		// params for query
 		List<String> startTime = Collections.singletonList("2002-02-14T00:00:00"); //Todo: replace date with 1997-01-01T00:00:00
@@ -260,5 +258,21 @@ class CatalogService {
 			throw new RuntimeException("Internal Error: unable to determine parameter 'from' for task " + task)
 		}
 		return from
+	}
+	
+	public IesQueryServiceImpl getIesQueryServiceImpl() {
+		if(iesQueryServiceImpl == null) {
+			iesQueryServiceImpl = (IesQueryServiceImpl) helioClient.getServiceInstance(
+				HelioServiceName.IES,
+				null,
+				ServiceCapability.EXPERIMENTAL_QUERY_SERVICE)
+			
+		}
+		
+		return iesQueryServiceImpl
+	}
+
+	public void setIesQueryServiceImpl(IesQueryServiceImpl iesQueryServiceImpl) {
+		this.iesQueryServiceImpl = iesQueryServiceImpl;
 	}
 }
